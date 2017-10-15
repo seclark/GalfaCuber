@@ -56,4 +56,3 @@ new_header.remove('NAXIS3')
 new_header.remove('CROTA3')
 new_header['NAXIS'] = 2
 
-print(new_header)
