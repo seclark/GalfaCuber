@@ -99,7 +99,7 @@ priheader.set('NAXIS3', nthets)
 priheader.set('CDELT3', np.pi/nthets)
 priheader.set('CTYPE3', 'THETARHT')
 priheader.set('CRVAL3', 0.000000)
-priheader.set('CRPIX3', 0.000000)
+priheader.set('CRPIX3', 1.000000)
 
 with open('../text/newhistory.txt') as histtext:
     allhistory = histtext.readlines()
@@ -114,5 +114,5 @@ for line in allhistory:
 print(priheader)
 print(hdulist[0].data.shape)
 
-hdulist.writeto("testrht_velcube_"+rht_velstr+"RA+DEC_044.00+02.35.fits")
+hdulist.writeto("../testdata/testrht_velcube_"+rht_velstr+"RA+DEC_044.00+02.35.fits")
 
