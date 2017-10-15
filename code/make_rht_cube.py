@@ -86,9 +86,14 @@ priheader = hdulist[0].header
 
 priheader.set('NAXIS', 3)
 priheader.set('CTYPE1', 'RA      ')
-
+priheader.set('CRPIX1', galfa_cube_hdr['CRPIX1'])
+priheader.set('CRVAL1', galfa_cube_hdr['CRVAL1'])
+priheader.set('CRDELT1', galfa_cube_hdr['CRDELT1'])
 
 priheader.set('CTYPE2', 'DEC     ')
+priheader.set('CRPIX2', galfa_cube_hdr['CRPIX2'])
+priheader.set('CRVAL2', galfa_cube_hdr['CRVAL2'])
+priheader.set('CRDELT2', galfa_cube_hdr['CRDELT2'])
 
 priheader.set('NAXIS3', nthets)
 priheader.set('CDELT3', np.pi/nthets)
@@ -101,11 +106,13 @@ with open('../text/newhistory.txt') as histtext:
 
 # strip /n characters, 'HISTORY'
 allhistory = [x.strip() for x in allhistory] 
-allhistory = [x.replace('HISTORY', '') for x in allhistory] 
+allhistory = [x.replace('HISTORY ', '') for x in allhistory] 
 
 for line in allhistory:
     priheader.set('HISTORY', line)
 
 print(priheader)
 print(hdulist[0].data.shape)
+
+hdulist.writeto("testrht_velcube_"+rht_velstr+"RA+DEC_044.00+02.35.fits")
 
