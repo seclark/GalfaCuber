@@ -11,7 +11,8 @@ path_to_rht_thetaslices = "/disks/jansky/a/users/goldston/susan/Wide_maps/single
 path_to_nhi_allskymaps = "/disks/jansky/a/users/goldston/zheng/151019_NHImaps_SRcorr/data/GNHImaps_SRCORR_final/NHImaps/"
 
 # eventually we will step through these cubes -- start w/ 1 test
-galfa_cube_name = "GALFA_HI_RA+DEC_356.00+34.35_W"
+#galfa_cube_name = "GALFA_HI_RA+DEC_356.00+34.35_W"
+galfa_cube_name = "GALFA_HI_RA+DEC_040.00+02.35_W"
 galfa_cube_fn = path_to_galfa_cubes + galfa_cube_name + ".fits"
 
 galfa_cube_hdr = fits.getheader(galfa_cube_fn)
