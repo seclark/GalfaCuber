@@ -74,7 +74,7 @@ for thet_i in xrange(nthets):
     xycut_hdr, xycut_data = cutouts.xycutout_data(allsky_thetaslice_data, allsky_thetaslice_hdr, xstart=cutout_xstart, xstop=cutout_xstop, ystart=cutout_ystart, ystop=cutout_ystop)
     rht_data_cube[thet_i, :, :] = xycut_data
     
-    print('finished with theta= {}'.format(thet_i))
+    #print('finished with theta= {}'.format(thet_i))
 
 
 
@@ -84,11 +84,22 @@ hdulist = fits.HDUList([hdu])
 priheader = hdulist[0].header
 
 priheader.set('NAXIS', 3)
+priheader.set('CTYPE1', 'RA      ')
+
+
+priheader.set('CTYPE2', 'DEC     ')
+
 priheader.set('NAXIS3', nthets)
 priheader.set('CDELT3', np.pi/nthets)
 priheader.set('CTYPE3', 'THETARHT')
 priheader.set('CRVAL3', 0.000000)
 priheader.set('CRPIX3', 0.000000)
+
+with open('../text/newhistory.txt') as histtext:
+    allhistory = histtext.readlines()
+
+for line in allhistory:
+    priheader.set('HISTORY', line)
 
 print(priheader)
 print(hdulist[0].data.shape)
