@@ -29,6 +29,7 @@ rht_data_cube = np.zeros((nthets, galfa_cube_hdr['NAXIS2'], galfa_cube_hdr['NAXI
 cube_crval1 = galfa_cube_hdr['CRVAL1']
 cube_crval2 = galfa_cube_hdr['CRVAL2']
 cube_crpix1 = galfa_cube_hdr['CRPIX1']
+print(galfa_cube_hdr['CTYPE1'])
 
 #test
 print(cube_crval1, cube_crval2)
