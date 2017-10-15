@@ -23,10 +23,11 @@ rht_data_cube = np.zeros((nthets, galfa_cube_hdr['NAXIS2'], galfa_cube_hdr['NAXI
 
 # Obtain x, y values in *big* GALFA data. These should be integers.
 cube_crval1 = galfa_cube_hdr['CRVAL1']
+cube_crval2 = galfa_cube_hdr['CRVAL2']
 cube_crpix1 = galfa_cube_hdr['CRPIX1']
 
 cube_w = cutouts.make_wcs(galfa_cube_fn)
-cube_edgera1, cube_edgedec1 = cutouts.xy_to_radec(0, 0, cube_w)
+cube_edgera1, cube_edgedec1 = cutouts.xy_to_radec(cube_crval1, cube_crval2, cube_w)
 print(cube_edgera1, cube_edgedec1)
 
 allsky_w = cutouts.make_wcs(galfa_allsky_hdr)
