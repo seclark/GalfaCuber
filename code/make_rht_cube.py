@@ -30,7 +30,7 @@ print(cube_crval1, cube_crval2)
 cube_w = cutouts.make_wcs(galfa_cube_fn)
 cube_edgex1, cube_edgey1 = cutouts.radec_to_xy(cube_crval1, cube_crval2, cube_w)
 print(cube_edgex1, cube_edgey1)
-cube_edgera1, cube_edgedec1 = cutouts.xy_to_radec(cube_crval1, cube_crval2, cube_w)
+cube_edgera1, cube_edgedec1 = cutouts.xy_to_radec(cube_edgex1, cube_edgey1, cube_w)
 print(cube_edgera1, cube_edgedec1)
 
 allsky_w = cutouts.make_wcs(galfa_allsky_hdr)
