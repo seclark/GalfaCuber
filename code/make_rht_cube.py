@@ -98,8 +98,9 @@ priheader.set('CRPIX3', 0.000000)
 with open('../text/newhistory.txt') as histtext:
     allhistory = histtext.readlines()
 
-# strip /n characters
+# strip /n characters, 'HISTORY'
 allhistory = [x.strip() for x in allhistory] 
+allhistory = [x.pop('HISTORY ') for x in allhistory] 
 
 for line in allhistory:
     priheader.set('HISTORY', line)
