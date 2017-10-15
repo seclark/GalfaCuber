@@ -8,13 +8,15 @@ import cutouts
 
 path_to_galfa_cubes = "/disks/jansky/a/users/goldston/DR2W_RC5/Wide/"
 path_to_rht_thetaslices = "/disks/jansky/a/users/goldston/susan/Wide_maps/single_theta_maps/"
+path_to_nhi_allskymaps = "/disks/jansky/a/users/goldston/zheng/151019_NHImaps_SRcorr/data/GNHImaps_SRCORR_final/NHImaps/"
 
 # eventually we will step through these cubes -- start w/ 1 test
 galfa_cube_name = "GALFA_HI_RA+DEC_356.00+34.35_W"
 galfa_cube_fn = path_to_galfa_cubes + galfa_cube_name + ".fits"
 
 galfa_cube_hdr = fits.getheader(galfa_cube_fn)
-galfa_allsky_hdr = fits.getheader(path_to_rht_thetaslices+"S0974_0978/intrht_S0974_0978.fits")
+#galfa_allsky_hdr = fits.getheader(path_to_rht_thetaslices+"S0974_0978/intrht_S0974_0978.fits")
+galfa_allsky_hdr = fits.getheader(path_to_nhi_allskymaps+"GALFA-HI_NHI_VLSR-90+90kms.fits")
 
 # R(theta) cube dimensions
 nthets = 165
