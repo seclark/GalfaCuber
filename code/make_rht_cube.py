@@ -1,5 +1,6 @@
 from __future__ import division
 import numpy as np
+from astropy.io import fits
 
 import sys 
 sys.path.insert(0, '../../FITSHandling/code')
