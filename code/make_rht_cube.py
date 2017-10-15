@@ -52,6 +52,7 @@ cutout_x2, cutout_y2 = cutouts.radec_to_xy(cube_edgera2, cube_edgedec2, allsky_w
 
 # ROUND to integer x, y. Necessary because allsky header does not quite match up. Should check.
 print(cutout_x1, cutout_x2, cutout_y1, cutout_y2)
+print(np.int(cutout_x1), np.int(cutout_x2), np.int(cutout_y1), np.int(cutout_y2))
 cutout_xstart = np.int(cutout_x1)
 
 #xycut_hdr, xycut_data = cutouts.xycutout_data(big_data, big_hdr, xstart = 0, xstop = None, ystart = 0, ystop = None)
