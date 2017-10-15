@@ -67,7 +67,7 @@ cutout_ystop = np.int(np.round(cutout_y2))
 
 # Grab new data
 for thet_i in xrange(nthets):
-    allsky_fn = path_to_rht_thetaslices + rht_velstr + "/GALFA_HI_W_+"rht_velstr+"_newhdr_SRcorr_w75_s15_t70_thetabin_"+str(thet_i)+".fits"
+    allsky_fn = path_to_rht_thetaslices + rht_velstr + "/GALFA_HI_W_"+rht_velstr+"_newhdr_SRcorr_w75_s15_t70_thetabin_"+str(thet_i)+".fits"
     allsky_thetaslice_data = fits.getdata(allsky_fn)
     allsky_thetaslice_hdr = fits.getheader(allsky_fn)
     
