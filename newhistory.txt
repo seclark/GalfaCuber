@@ -1,0 +1,20 @@
+HISTORY >                                                                       
+HISTORY *********************************************************************   
+HISTORY The data in this FITS file have been produced by the GALFA-HI           
+HISTORY consortium in concert with the TOGS subgroup. The GALFA Consortium      
+HISTORY was formed in 2003 to use the 7-element Arecibo L-band Feed Array       
+HISTORY (ALFA) instrument for surveys of the Galactic Interstellar Medium      
+HISTORY (ISM) with William E. Gordon Arecibo Observatory 305-meter telescope. 
+HISTORY The GALFA-HI/TOGS team has made reasonable efforts to produce accurate 
+HISTORY data, but no warranty is expressed or implied as to the suitability of
+HISTORY the data for any particular purpose. 
+HISTORY Please read and cite "The GALFA-HI Survey Data Release 2" 
+HISTORY https://doi.org/10.3847/1538-4365/aa91d3 if you use this data.
+HISTORY Wide data cubes are available at http://dx.doi.org/10.7910/DVN/X4PQ1Z
+HISTORY Narrow data cubes are available at http://dx.doi.org/10.7910/DVN/MFM8C7
+HISTORY Integrated HI maps are available at http://dx.doi.org/10.7910/DVN/T9CFT8
+HISTORY RHT data are available at http://dx.doi.org/10.7910/DVN/BEQ9ZZ
+HISTORY The software is available at https://doi.org/10.5281/zenodo.1009153
+HISTORY More software data are available at http://dx.doi.org/10.7910/DVN/RMOTC0                                  
+HISTORY *********************************************************************   
+HISTORY >
