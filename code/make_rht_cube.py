@@ -1,6 +1,7 @@
 from __future__ import division
 import numpy as np
 from astropy.io import fits
+import re
 
 import sys 
 sys.path.insert(0, '../../FITSHandling/code')
@@ -100,7 +101,7 @@ with open('../text/newhistory.txt') as histtext:
 
 # strip /n characters, 'HISTORY'
 allhistory = [x.strip() for x in allhistory] 
-allhistory = [x.pop('HISTORY ') for x in allhistory] 
+allhistory = [x.replace('HISTORY', '') for x in allhistory] 
 
 for line in allhistory:
     priheader.set('HISTORY', line)
