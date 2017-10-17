@@ -13,7 +13,7 @@ path_to_nhi_allskymaps = "/disks/jansky/a/users/goldston/zheng/151019_NHImaps_SR
 
 # eventually we will step through these cubes -- start w/ 1 test
 #galfa_cube_name = "GALFA_HI_RA+DEC_356.00+34.35_W"
-galfa_cube_name = "GALFA_HI_RA+DEC_044.00+02.35_W"
+galfa_cube_name = "GALFA_HI_RA+DEC_180.00+02.35_W"
 galfa_cube_fn = path_to_galfa_cubes + galfa_cube_name + ".fits"
 
 galfa_cube_hdr = fits.getheader(galfa_cube_fn)
@@ -114,5 +114,5 @@ for line in allhistory:
 print(priheader)
 print(hdulist[0].data.shape)
 
-hdulist.writeto("../testdata/testrht_velcube_"+rht_velstr+"RA+DEC_044.00+02.35.fits")
+hdulist.writeto("../testdata/testrht_velcube_"+rht_velstr+"RA+DEC_180.00+02.35.fits")
 
