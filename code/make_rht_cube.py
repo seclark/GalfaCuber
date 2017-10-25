@@ -11,6 +11,22 @@ path_to_galfa_cubes = "/disks/jansky/a/users/goldston/DR2W_RC5/Wide/"
 path_to_rht_thetaslices = "/disks/jansky/a/users/goldston/susan/Wide_maps/single_theta_maps/"
 path_to_nhi_allskymaps = "/disks/jansky/a/users/goldston/zheng/151019_NHImaps_SRcorr/data/GNHImaps_SRCORR_final/NHImaps/"
 
+class Cube():
+    """
+    Single data cube defined by coordinates of PPV cube
+    """
+    def __init__(self, RA="180.00", DEC="02.35"):
+        
+        # string center cube coordinates
+        self.centerRA = RA
+        self.centerDEC = DEC
+        
+        self.ppv_cube_name = "GALFA_HI_RA+DEC_"+self.centerRA+"+"+self.centerDEC+"_W"
+        self.ppv_cube_fn = path_to_galfa_cubes + galfa_cube_name + ".fits"
+        
+        
+
+
 # eventually we will step through these cubes -- start w/ 1 test
 #galfa_cube_name = "GALFA_HI_RA+DEC_356.00+34.35_W"
 galfa_cube_name = "GALFA_HI_RA+DEC_180.00+02.35_W"
