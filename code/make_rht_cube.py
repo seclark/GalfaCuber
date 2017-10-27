@@ -30,6 +30,25 @@ class Cube():
         self.galfa_allsky_hdr = fits.getheader(self.path_to_rht_thetaslices+"S0974_0978/intrht_S0974_0978.fits")
 
     def get_cube_coordinates_in_allsky(self):
+        """
+        x, y start, stop in coordinates of allsky data
+        """
+    
+        # Actually grab cube edges
+        cube_w = cutouts.make_wcs(self.ppv_cube_fn)
+        cube_edgera1, cube_edgedec1 = cutouts.xy_to_radec(0, 0, cube_w)
+        cube_edgera2, cube_edgedec2 = cutouts.xy_to_radec(self.naxis1, self.naxis2, cube_w)
+
+        # translate cube corners to allsky x, y
+        allsky_w = cutouts.make_wcs(self.galfa_allsky_hdr)
+        cutout_x1, cutout_y1 = cutouts.radec_to_xy(cube_edgera1, cube_edgedec1, allsky_w)
+        cutout_x2, cutout_y2 = cutouts.radec_to_xy(cube_edgera2, cube_edgedec2, allsky_w)
+
+        # ROUND to integer x, y. Necessary because allsky header does not quite match up. Valid per Yong's check.
+        self.cutout_xstart = np.int(np.round(cutout_x1))
+        self.cutout_xstop = np.int(np.round(cutout_x2))
+        self.cutout_ystart = np.int(np.round(cutout_y1))
+        self.cutout_ystop = np.int(np.round(cutout_y2))
     
     def make_RHT_XYT_cube(self, rht_velstr="S0974_0978"):
         """
@@ -37,116 +56,72 @@ class Cube():
         inputs: rht_velstr :: velocity range string for RHT channel map
         """
         
+        self.rht_velstr = rht_velstr
+        
         # There are 165 theta bins in RHT data
         self.nthets = 165
-        rht_data_cube = np.zeros((nthets, galfa_cube_hdr['NAXIS2'], galfa_cube_hdr['NAXIS1']), np.float_)
         
-
-
-# eventually we will step through these cubes -- start w/ 1 test
-#galfa_cube_name = "GALFA_HI_RA+DEC_356.00+34.35_W"
-galfa_cube_name = "GALFA_HI_RA+DEC_180.00+02.35_W"
-galfa_cube_fn = path_to_galfa_cubes + galfa_cube_name + ".fits"
-
-galfa_cube_hdr = fits.getheader(galfa_cube_fn)
-galfa_allsky_hdr = fits.getheader(path_to_rht_thetaslices+"S0974_0978/intrht_S0974_0978.fits")
-#galfa_allsky_hdr = fits.getheader(path_to_nhi_allskymaps+"GALFA-HI_NHI_VLSR-90+90kms.fits")
-
-
-
-# R(theta) cube dimensions
-nthets = 165
-rht_velstr = "S0974_0978"
-rht_data_cube = np.zeros((nthets, galfa_cube_hdr['NAXIS2'], galfa_cube_hdr['NAXIS1']), np.float_)
-
-
-# Obtain x, y values in *big* GALFA data. These should be integers.
-cube_crval1 = galfa_cube_hdr['CRVAL1']
-cube_crval2 = galfa_cube_hdr['CRVAL2']
-cube_crpix1 = galfa_cube_hdr['CRPIX1']
-
-#test
-print(cube_crval1, cube_crval2)
-cube_w = cutouts.make_wcs(galfa_cube_fn)
-cube_edgex1, cube_edgey1 = cutouts.radec_to_xy(cube_crval1, cube_crval2, cube_w)
-print(cube_edgex1, cube_edgey1)
-cube_edgera1, cube_edgedec1 = cutouts.xy_to_radec(cube_edgex1, cube_edgey1, cube_w)
-print(cube_edgera1, cube_edgedec1)
-
-print(galfa_allsky_hdr['CTYPE1'])
-#galfa_allsky_hdr['CTYPE1'] = 'RA      '
-#galfa_allsky_hdr['CTYPE2'] = 'DEC     '
-allsky_w = cutouts.make_wcs(galfa_allsky_hdr)
-cutout_x1, cutout_y1 = cutouts.radec_to_xy(cube_crval1, cube_crval2, allsky_w)
-print(cutout_x1, cutout_y1)
-
-# Actually grab cube edges
-cube_w = cutouts.make_wcs(galfa_cube_fn)
-cube_edgera1, cube_edgedec1 = cutouts.xy_to_radec(0, 0, cube_w)
-cube_edgera2, cube_edgedec2 = cutouts.xy_to_radec(galfa_cube_hdr["NAXIS1"], galfa_cube_hdr["NAXIS2"], cube_w)
-
-# translate cube corners to allsky x, y
-allsky_w = cutouts.make_wcs(galfa_allsky_hdr)
-cutout_x1, cutout_y1 = cutouts.radec_to_xy(cube_edgera1, cube_edgedec1, allsky_w)
-cutout_x2, cutout_y2 = cutouts.radec_to_xy(cube_edgera2, cube_edgedec2, allsky_w)
-
-# ROUND to integer x, y. Necessary because allsky header does not quite match up. Should check.
-print(cutout_x1, cutout_x2, cutout_y1, cutout_y2)
-print(np.int(np.round(cutout_x1)), np.int(np.round(cutout_x2)), np.int(np.round(cutout_y1)), np.int(np.round(cutout_y2)))
-cutout_xstart = np.int(np.round(cutout_x1))
-cutout_xstop = np.int(np.round(cutout_x2))
-cutout_ystart = np.int(np.round(cutout_y1))
-cutout_ystop = np.int(np.round(cutout_y2))
-
-#xycut_hdr, xycut_data = cutouts.xycutout_data(big_data, big_hdr, xstart = 0, xstop = None, ystart = 0, ystop = None)
-
-# Grab new data
-for thet_i in xrange(nthets):
-    allsky_fn = path_to_rht_thetaslices + rht_velstr + "/GALFA_HI_W_"+rht_velstr+"_newhdr_SRcorr_w75_s15_t70_theta_"+str(thet_i)+".fits"
-    allsky_thetaslice_data = fits.getdata(allsky_fn)
-    allsky_thetaslice_hdr = fits.getheader(allsky_fn)
+        # Empty cube dimensions
+        self.naxis1 = self.ppv_cube_hdr['NAXIS1']
+        self.naxis2 = self.ppv_cube_hdr['NAXIS2']
+        self.rht_data_cube = np.zeros((nthets, self.naxis2, self.naxis1), np.float_)
+        
+        # Grab new data
+        for thet_i in xrange(self.nthets):
+            allsky_fn = self.path_to_rht_thetaslices + self.rht_velstr + "/GALFA_HI_W_"+rht_velstr+"_newhdr_SRcorr_w75_s15_t70_theta_"+str(thet_i)+".fits"
+            allsky_thetaslice_data = fits.getdata(allsky_fn)
+            allsky_thetaslice_hdr = fits.getheader(allsky_fn)
     
-    xycut_hdr, xycut_data = cutouts.xycutout_data(allsky_thetaslice_data, allsky_thetaslice_hdr, xstart=cutout_xstart, xstop=cutout_xstop, ystart=cutout_ystart, ystop=cutout_ystop)
-    rht_data_cube[thet_i, :, :] = xycut_data
-    
-    #print('finished with theta= {}'.format(thet_i))
+            xycut_hdr, xycut_data = cutouts.xycutout_data(allsky_thetaslice_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart, xstop=self.cutout_xstop, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
+            self.rht_data_cube[thet_i, :, :] = xycut_data
+
+        # Create new HDU object
+        hdu = fits.PrimaryHDU(self.rht_data_cube)
+        hdulist = fits.HDUList([hdu])
+        priheader = hdulist[0].header
+
+        priheader.set('NAXIS', 3)
+        priheader.set('CTYPE1', 'RA      ')
+        priheader.set('CRPIX1', self.ppv_cube_hdr['CRPIX1'])
+        priheader.set('CRVAL1', self.ppv_cube_hdr['CRVAL1'])
+        priheader.set('CDELT1', self.ppv_cube_hdr['CDELT1'])
+
+        priheader.set('CTYPE2', 'DEC     ')
+        priheader.set('CRPIX2', self.ppv_cube_hdr['CRPIX2'])
+        priheader.set('CRVAL2', self.ppv_cube_hdr['CRVAL2'])
+        priheader.set('CDELT2', self.ppv_cube_hdr['CDELT2'])
+
+        priheader.set('NAXIS3', self.nthets)
+        priheader.set('CDELT3', np.pi/self.nthets)
+        priheader.set('CTYPE3', 'THETARHT')
+        priheader.set('CRVAL3', 0.000000)
+        priheader.set('CRPIX3', 1.000000)
+
+        with open('../text/newhistory.txt') as histtext:
+            allhistory = histtext.readlines()
+
+        # strip /n characters, 'HISTORY'
+        allhistory = [x.strip() for x in allhistory] 
+        allhistory = [x.replace('HISTORY ', '') for x in allhistory] 
+
+        for line in allhistory:
+            priheader.set('HISTORY', line)
+            
+        self.hdu = hdu
+
+    def get_RHT_XYT_cube(self, ashdu=False):
+        """
+        retrieve (x, y, theta) cube.
+        """
+        if ashdu: 
+            return self.hdu
+        else: 
+            return self.rht_data_cube
+            
 
 
 
-# Create new HDU object
-hdu = fits.PrimaryHDU(rht_data_cube)
-hdulist = fits.HDUList([hdu])
-priheader = hdulist[0].header
 
-priheader.set('NAXIS', 3)
-priheader.set('CTYPE1', 'RA      ')
-priheader.set('CRPIX1', galfa_cube_hdr['CRPIX1'])
-priheader.set('CRVAL1', galfa_cube_hdr['CRVAL1'])
-priheader.set('CDELT1', galfa_cube_hdr['CDELT1'])
-
-priheader.set('CTYPE2', 'DEC     ')
-priheader.set('CRPIX2', galfa_cube_hdr['CRPIX2'])
-priheader.set('CRVAL2', galfa_cube_hdr['CRVAL2'])
-priheader.set('CDELT2', galfa_cube_hdr['CDELT2'])
-
-priheader.set('NAXIS3', nthets)
-priheader.set('CDELT3', np.pi/nthets)
-priheader.set('CTYPE3', 'THETARHT')
-priheader.set('CRVAL3', 0.000000)
-priheader.set('CRPIX3', 1.000000)
-
-with open('../text/newhistory.txt') as histtext:
-    allhistory = histtext.readlines()
-
-# strip /n characters, 'HISTORY'
-allhistory = [x.strip() for x in allhistory] 
-allhistory = [x.replace('HISTORY ', '') for x in allhistory] 
-
-for line in allhistory:
-    priheader.set('HISTORY', line)
-
-print(priheader)
-print(hdulist[0].data.shape)
 
 hdulist.writeto("../testdata/testrht_velcube_"+rht_velstr+"RA+DEC_180.00+02.35.fits")
 
