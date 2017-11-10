@@ -163,7 +163,7 @@ def make_single_cube_rtheta(RA="180.00", DEC="02.35", rht_velstart="0974", rht_v
 
 if __name__ == "__main__":
     all_DECs = ["02.35", "10.35", "18.35", "26.35", "34.35"]
-    all_RAs = ["{0:0=3d}.00".format(ra) for ra in np.arange(4, 360, 8)]
+    all_RAs = ["{0:0=3d}.00".format(ra) for ra in np.arange(12, 360, 8)]
 
     for ra in all_RAs:
         for dec in all_DECs:
