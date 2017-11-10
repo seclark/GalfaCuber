@@ -7,6 +7,8 @@ import sys
 sys.path.insert(0, '../../FITSHandling/code')
 import cutouts
 
+import galfa_vel_helpers
+
 class Cube():
     """
     Single data cube defined by coordinates of PPV cube
@@ -121,13 +123,40 @@ class Cube():
             return self.rht_data_cube
             
 
-# test
-RA = "156.00"
-DEC = "26.35"
-rht_velstr="S0974_0978"
-cube = Cube(RA=RA, DEC=DEC)
-cube.get_cube_coordinates_in_allsky()
-cube.make_RHT_XYT_cube(rht_velstr=rht_velstr)
-hdulist = cube.get_RHT_XYT_cube(ashdulist = True)
-hdulist.writeto("../testdata/testrht_velcube_"+rht_velstr+"RA+DEC_"+RA+"+"+DEC+".fits")
+def make_single_cube_rtheta(RA="180.00", DEC="02.35", rht_velstart="0974", rht_velstop="0978", verbose=False)
+    """
+    create and save R(theta) cube for single RHT velocity range.
+    """
+    velstart = galfa_vel_helpers.galfa_name_dict[rht_velstart]
+    velstop = galfa_vel_helpers.galfa_name_dict[rht_velstop]
+    rht_velstr = "S"+rht_velstart+"_"+rht_velstop
+    
+    if verbose:
+        print("velocities {} to {}".format(velstart, velstop))
+    
+    cube = Cube(RA=RA, DEC=DEC)
+    cube.get_cube_coordinates_in_allsky()
+    cube.make_RHT_XYT_cube(rht_velstr=rht_velstr)
+    hdulist = cube.get_RHT_XYT_cube(ashdulist = True)
+    
+    outroot = "/disks/jansky/a/users/goldston/susan/RHT_RC1/"
+    outfn = outroot + rht_velstr + "/GALFA-HI_RHT_spect_v"+velstart+"_"+velstop+"_RA+DEC_"+RA+"+"+DEC+".fits"
+    
+    if verbose:
+        print("Saving to {}".format(outfn))
+    
+    hdulist.writeto(outfn)
+    
 
+# test
+#RA = "156.00"
+#DEC = "26.35"
+#rht_velstr="S0974_0978"
+#cube = Cube(RA=RA, DEC=DEC)
+#cube.get_cube_coordinates_in_allsky()
+#cube.make_RHT_XYT_cube(rht_velstr=rht_velstr)
+#hdulist = cube.get_RHT_XYT_cube(ashdulist = True)
+#hdulist.writeto("../testdata/testrht_velcube_"+rht_velstr+"RA+DEC_"+RA+"+"+DEC+".fits")
+
+if __name__ == "__main__":
+    make_single_cube_rtheta(RA="180.00", DEC="02.35", rht_velstart="0974", rht_velstop="0978", verbose=True)
