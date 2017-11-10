@@ -25,6 +25,10 @@ class Cube():
         # get PPV cube header 
         self.ppv_cube_hdr = fits.getheader(self.ppv_cube_fn)
         
+        # cube dimensions
+        self.naxis1 = self.ppv_cube_hdr['NAXIS1']
+        self.naxis2 = self.ppv_cube_hdr['NAXIS2']
+        
         # get allsky RHT data header
         self.path_to_rht_thetaslices = "/disks/jansky/a/users/goldston/susan/Wide_maps/single_theta_maps/"
         self.galfa_allsky_hdr = fits.getheader(self.path_to_rht_thetaslices+"S0974_0978/intrht_S0974_0978.fits")
@@ -62,8 +66,6 @@ class Cube():
         self.nthets = 165
         
         # Empty cube dimensions
-        self.naxis1 = self.ppv_cube_hdr['NAXIS1']
-        self.naxis2 = self.ppv_cube_hdr['NAXIS2']
         self.rht_data_cube = np.zeros((nthets, self.naxis2, self.naxis1), np.float_)
         
         # Grab new data
