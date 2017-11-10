@@ -66,7 +66,7 @@ class Cube():
         self.nthets = 165
         
         # Empty cube dimensions
-        self.rht_data_cube = np.zeros((nthets, self.naxis2, self.naxis1), np.float_)
+        self.rht_data_cube = np.zeros((self.nthets, self.naxis2, self.naxis1), np.float_)
         
         # Grab new data
         for thet_i in xrange(self.nthets):
