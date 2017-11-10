@@ -124,9 +124,10 @@ class Cube():
 # test
 RA = "156.00"
 DEC = "26.35"
+rht_velstr="S0974_0978"
 cube = Cube(RA=RA, DEC=DEC)
 cube.get_cube_coordinates_in_allsky()
-cube.make_RHT_XYT_cube()
+cube.make_RHT_XYT_cube(rht_velstr=rht_velstr)
 hdulist = cube.get_RHT_XYT_cube(ashdulist = True)
 hdulist.writeto("../testdata/testrht_velcube_"+rht_velstr+"RA+DEC_"+RA+"+"+DEC+".fits")
 
