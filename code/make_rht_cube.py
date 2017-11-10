@@ -123,7 +123,7 @@ class Cube():
             return self.rht_data_cube
             
 
-def make_single_cube_rtheta(RA="180.00", DEC="02.35", rht_velstart="0974", rht_velstop="0978", verbose=False)
+def make_single_cube_rtheta(RA="180.00", DEC="02.35", rht_velstart="0974", rht_velstop="0978", verbose=False):
     """
     create and save R(theta) cube for single RHT velocity range.
     """
