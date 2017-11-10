@@ -56,7 +56,7 @@ class Cube():
         self.cutout_ystart = np.int(np.round(cutout_y1))
         self.cutout_ystop = np.int(np.round(cutout_y2))
     
-    def make_RHT_XYT_cube(self, rht_velstr="S0974_0978"):
+    def make_RHT_XYT_cube(self, rht_velstr="S0974_0978", verbose=False):
         """
         make a cube of dimensions (nx, ny, ntheta)
         inputs: rht_velstr :: velocity range string for RHT channel map
@@ -77,6 +77,9 @@ class Cube():
             allsky_thetaslice_hdr = fits.getheader(allsky_fn)
     
             xycut_hdr, xycut_data = cutouts.xycutout_data(allsky_thetaslice_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart, xstop=self.cutout_xstop, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
+            if verbose:
+                print(self.cutout_xstart, self.cutout_xstop, self.cutout_ystart, self.cutout_ystop)
+            
             self.rht_data_cube[thet_i, :, :] = xycut_data
 
         # Create new HDU object
@@ -136,7 +139,7 @@ def make_single_cube_rtheta(RA="180.00", DEC="02.35", rht_velstart="0974", rht_v
     
     cube = Cube(RA=RA, DEC=DEC)
     cube.get_cube_coordinates_in_allsky()
-    cube.make_RHT_XYT_cube(rht_velstr=rht_velstr)
+    cube.make_RHT_XYT_cube(rht_velstr=rht_velstr, verbose=verbose)
     hdulist = cube.get_RHT_XYT_cube(ashdulist = True)
     
     outroot = "/disks/jansky/a/users/goldston/susan/RHT_RC1/Rtheta_cubes/"
