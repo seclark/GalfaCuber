@@ -139,7 +139,7 @@ def make_single_cube_rtheta(RA="180.00", DEC="02.35", rht_velstart="0974", rht_v
     cube.make_RHT_XYT_cube(rht_velstr=rht_velstr)
     hdulist = cube.get_RHT_XYT_cube(ashdulist = True)
     
-    outroot = "/disks/jansky/a/users/goldston/susan/RHT_RC1/"
+    outroot = "/disks/jansky/a/users/goldston/susan/RHT_RC1/Rtheta_cubes/"
     outfn = outroot + rht_velstr + "/GALFA-HI_RHT_spect_v"+velstart+"_"+velstop+"_RA+DEC_"+RA+"+"+DEC+".fits"
     
     if verbose:
