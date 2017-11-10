@@ -159,4 +159,9 @@ def make_single_cube_rtheta(RA="180.00", DEC="02.35", rht_velstart="0974", rht_v
 #hdulist.writeto("../testdata/testrht_velcube_"+rht_velstr+"RA+DEC_"+RA+"+"+DEC+".fits")
 
 if __name__ == "__main__":
-    make_single_cube_rtheta(RA="180.00", DEC="02.35", rht_velstart="0974", rht_velstop="0978", verbose=True)
+    all_DECs = ["02.35", "10.35", "18.35", "26.35", "34.35"]
+    all_RAs = ["{0:0=3d}.00".format(ra) for ra in np.arange(4, 360, 8)]
+
+    for ra in all_RAs:
+        for dec in all_DECs:
+            make_single_cube_rtheta(RA=ra, DEC=dec, rht_velstart="0974", rht_velstop="0978", verbose=True)
