@@ -281,7 +281,7 @@ if __name__ == "__main__":
     for ra in all_RAs:
         for dec in all_DECs:
             make_single_cube_rtheta(RA=ra, DEC=dec, rht_velstart="0994", rht_velstop="0998", verbose=True)
-            make_single_cube_IQU(RA=RA, DEC=DEC, verbose=True)
+            make_single_cube_IQU(RA=ra, DEC=dec, verbose=True)
 
     #RA = "156.00"
     #DEC = "26.35"
