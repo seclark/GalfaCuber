@@ -125,22 +125,18 @@ class Cube():
         else: 
             return self.rht_data_cube
             
-    def make_RHT_IQU_cube(self, rht_velstr="S0974_0978", verbose=False):
+    def make_RHT_IQU_cube(self, verbose=False):
         """
         make a cube of dimensions (nx, ny, ntheta)
         inputs: rht_velstr :: velocity range string for RHT channel map
         """
         
-        self.rht_velstr = rht_velstr
-        
-        # There are 165 theta bins in RHT data
-        self.nthets = 165
-        
-        # Empty cube dimensions
-        self.rht_data_cube = np.zeros((self.nthets, self.naxis2, self.naxis1), np.float_)
+        # Empty cube dimensions - there are 21 velocity channels
+        self.nchannels = 21
+        self.rht_IQU_cube = np.zeros((self.nchannels, self.naxis2, self.naxis1), np.float_)
         
         # Grab new data
-        for thet_i in xrange(self.nthets):
+        for rht_velstr in galfa_vel_helpers.all_rht_velstrs:
             allsky_fn = self.path_to_rht_thetaslices + self.rht_velstr + "/GALFA_HI_W_"+rht_velstr+"_newhdr_SRcorr_w75_s15_t70_theta_"+str(thet_i)+".fits"
             allsky_thetaslice_data = fits.getdata(allsky_fn)
             allsky_thetaslice_hdr = fits.getheader(allsky_fn)
@@ -190,11 +186,11 @@ def make_single_cube_rtheta(RA="180.00", DEC="02.35", rht_velstart="0974", rht_v
 
 if __name__ == "__main__":
     all_DECs = ["02.35", "10.35", "18.35", "26.35", "34.35"]
-    all_RAs = ["{0:0=3d}.00".format(ra) for ra in np.arange(12, 360, 8)]
+    all_RAs = ["{0:0=3d}.00".format(ra) for ra in np.arange(12, 350, 8)]
     #all_RAs = ["{0:0=3d}.00".format(ra) for ra in np.arange(180, 360, 8)]
 
     for ra in all_RAs:
         for dec in all_DECs:
-            make_single_cube_rtheta(RA=ra, DEC=dec, rht_velstart="0979", rht_velstop="0983", verbose=True)
+            make_single_cube_rtheta(RA=ra, DEC=dec, rht_velstart="0984", rht_velstop="0988", verbose=True)
 
 
