@@ -208,6 +208,8 @@ class Cube():
         self.hdulist_I = hdulist_I
         self.hdulist_Q = hdulist_Q
         self.hdulist_U = hdulist_U
+        
+        print(hdulist_Q.header)
             
             
     def get_RHT_IQU_cubes(self, ashdulist=False):
@@ -260,8 +262,13 @@ if __name__ == "__main__":
     all_RAs = ["{0:0=3d}.00".format(ra) for ra in np.arange(12, 350, 8)]
     #all_RAs = ["{0:0=3d}.00".format(ra) for ra in np.arange(180, 360, 8)]
 
-    for ra in all_RAs:
-        for dec in all_DECs:
-            make_single_cube_rtheta(RA=ra, DEC=dec, rht_velstart="0989", rht_velstop="0993", verbose=True)
+    #for ra in all_RAs:
+    #    for dec in all_DECs:
+    #        make_single_cube_rtheta(RA=ra, DEC=dec, rht_velstart="0989", rht_velstop="0993", verbose=True)
 
-
+    RA = "156.00"
+    DEC = "26.35"
+    rht_velstr="S0974_0978"
+    cube = Cube(RA=RA, DEC=DEC)
+    cube.get_cube_coordinates_in_allsky()
+    cube.make_RHT_IQU_cubes(verbose=True)
