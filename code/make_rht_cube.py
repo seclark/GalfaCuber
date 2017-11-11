@@ -150,8 +150,8 @@ class Cube():
             xycut_hdr, xycut_I = cutouts.xycutout_data(allsky_I_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart, xstop=self.cutout_xstop, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
             xycut_hdr, xycut_Q = cutouts.xycutout_data(allsky_Q_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart, xstop=self.cutout_xstop, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
             xycut_hdr, xycut_U = cutouts.xycutout_data(allsky_U_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart, xstop=self.cutout_xstop, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
-            if verbose:
-                print(self.cutout_xstart, self.cutout_xstop, self.cutout_ystart, self.cutout_ystop)
+            #if verbose:
+            #    print(self.cutout_xstart, self.cutout_xstop, self.cutout_ystart, self.cutout_ystop)
             
             self.rht_I_cube[vel_i, :, :] = xycut_I
             self.rht_Q_cube[vel_i, :, :] = xycut_Q
