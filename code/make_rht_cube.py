@@ -172,6 +172,7 @@ class Cube():
         # start and end velocities in meters
         startvel = galfa_vel_helpers.get_galfa_W_truevel(974)*1000
         stopvel = galfa_vel_helpers.get_galfa_W_truevel(1078)*1000
+        print(startvel, stopvel)
         velstep = (np.float(stopvel) - np.float(startvel))/self.nchannels
         
         for priheader in [priheader_I, priheader_Q, priheader_U]:
