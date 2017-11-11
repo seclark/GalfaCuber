@@ -125,6 +125,33 @@ class Cube():
         else: 
             return self.rht_data_cube
             
+    def make_RHT_IQU_cube(self, rht_velstr="S0974_0978", verbose=False):
+        """
+        make a cube of dimensions (nx, ny, ntheta)
+        inputs: rht_velstr :: velocity range string for RHT channel map
+        """
+        
+        self.rht_velstr = rht_velstr
+        
+        # There are 165 theta bins in RHT data
+        self.nthets = 165
+        
+        # Empty cube dimensions
+        self.rht_data_cube = np.zeros((self.nthets, self.naxis2, self.naxis1), np.float_)
+        
+        # Grab new data
+        for thet_i in xrange(self.nthets):
+            allsky_fn = self.path_to_rht_thetaslices + self.rht_velstr + "/GALFA_HI_W_"+rht_velstr+"_newhdr_SRcorr_w75_s15_t70_theta_"+str(thet_i)+".fits"
+            allsky_thetaslice_data = fits.getdata(allsky_fn)
+            allsky_thetaslice_hdr = fits.getheader(allsky_fn)
+    
+            xycut_hdr, xycut_data = cutouts.xycutout_data(allsky_thetaslice_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart, xstop=self.cutout_xstop, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
+            if verbose:
+                print(self.cutout_xstart, self.cutout_xstop, self.cutout_ystart, self.cutout_ystop)
+            
+            self.rht_data_cube[thet_i, :, :] = xycut_data
+
+            
 
 def make_single_cube_rtheta(RA="180.00", DEC="02.35", rht_velstart="0974", rht_velstop="0978", verbose=False):
     """
@@ -139,7 +166,7 @@ def make_single_cube_rtheta(RA="180.00", DEC="02.35", rht_velstart="0974", rht_v
     
     cube = Cube(RA=RA, DEC=DEC)
     cube.get_cube_coordinates_in_allsky()
-    cube.make_RHT_XYT_cube(rht_velstr=rht_velstr, verbose=verbose)
+    cube.make_RHT_XYT_cube(rht_velstr=rht_velstr, verbose=False)
     hdulist = cube.get_RHT_XYT_cube(ashdulist = True)
     
     outroot = "/disks/jansky/a/users/goldston/susan/RHT_RC1/Rtheta_cubes/"
@@ -163,9 +190,11 @@ def make_single_cube_rtheta(RA="180.00", DEC="02.35", rht_velstart="0974", rht_v
 
 if __name__ == "__main__":
     all_DECs = ["02.35", "10.35", "18.35", "26.35", "34.35"]
-    #all_RAs = ["{0:0=3d}.00".format(ra) for ra in np.arange(12, 360, 8)]
-    all_RAs = ["{0:0=3d}.00".format(ra) for ra in np.arange(180, 360, 8)]
+    all_RAs = ["{0:0=3d}.00".format(ra) for ra in np.arange(12, 360, 8)]
+    #all_RAs = ["{0:0=3d}.00".format(ra) for ra in np.arange(180, 360, 8)]
 
     for ra in all_RAs:
         for dec in all_DECs:
-            make_single_cube_rtheta(RA=ra, DEC=dec, rht_velstart="0974", rht_velstop="0978", verbose=True)
+            make_single_cube_rtheta(RA=ra, DEC=dec, rht_velstart="0979", rht_velstop="0983", verbose=True)
+
+
