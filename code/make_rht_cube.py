@@ -210,7 +210,7 @@ class Cube():
         self.hdulist_Q = hdulist_Q
         self.hdulist_U = hdulist_U
         
-        print(hdulist_Q.header)
+        print(hdulist_Q[0].header)
             
             
     def get_RHT_IQU_cubes(self, ashdulist=False):
