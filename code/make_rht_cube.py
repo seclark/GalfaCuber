@@ -125,7 +125,7 @@ class Cube():
         else: 
             return self.rht_data_cube
             
-    def make_RHT_IQU_cube(self, verbose=False):
+    def make_RHT_IQU_cubes(self, verbose=False):
         """
         make a cube of dimensions (nx, ny, ntheta)
         inputs: rht_velstr :: velocity range string for RHT channel map
@@ -133,20 +133,91 @@ class Cube():
         
         # Empty cube dimensions - there are 21 velocity channels
         self.nchannels = 21
-        self.rht_IQU_cube = np.zeros((self.nchannels, self.naxis2, self.naxis1), np.float_)
+        self.rht_I_cube = np.zeros((self.nchannels, self.naxis2, self.naxis1), np.float_)
+        self.rht_Q_cube = np.zeros((self.nchannels, self.naxis2, self.naxis1), np.float_)
+        self.rht_U_cube = np.zeros((self.nchannels, self.naxis2, self.naxis1), np.float_)
         
         # Grab new data
-        for rht_velstr in galfa_vel_helpers.all_rht_velstrs:
-            allsky_fn = self.path_to_rht_thetaslices + self.rht_velstr + "/GALFA_HI_W_"+rht_velstr+"_newhdr_SRcorr_w75_s15_t70_theta_"+str(thet_i)+".fits"
-            allsky_thetaslice_data = fits.getdata(allsky_fn)
-            allsky_thetaslice_hdr = fits.getheader(allsky_fn)
+        for vel_i, rht_velstr in enumerate(galfa_vel_helpers.all_rht_velstrs):
+            allsky_I_fn = self.path_to_rht_thetaslices + self.rht_velstr + "/intrht_"+rht_velstr+".fits"
+            allsky_Q_fn = self.path_to_rht_thetaslices + self.rht_velstr + "/QRHT_"+rht_velstr+".fits"
+            allsky_U_fn = self.path_to_rht_thetaslices + self.rht_velstr + "/URHT_"+rht_velstr+".fits"
+            allsky_I_data = fits.getdata(allsky_I_fn)
+            allsky_Q_data = fits.getdata(allsky_Q_fn)
+            allsky_U_data = fits.getdata(allsky_U_fn)
+            allsky_thetaslice_hdr = fits.getheader(allsky_I_fn)
     
-            xycut_hdr, xycut_data = cutouts.xycutout_data(allsky_thetaslice_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart, xstop=self.cutout_xstop, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
+            xycut_hdr, xycut_I = cutouts.xycutout_data(allsky_I_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart, xstop=self.cutout_xstop, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
+            xycut_hdr, xycut_Q = cutouts.xycutout_data(allsky_Q_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart, xstop=self.cutout_xstop, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
+            xycut_hdr, xycut_U = cutouts.xycutout_data(allsky_U_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart, xstop=self.cutout_xstop, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
             if verbose:
                 print(self.cutout_xstart, self.cutout_xstop, self.cutout_ystart, self.cutout_ystop)
             
-            self.rht_data_cube[thet_i, :, :] = xycut_data
+            self.rht_I_cube[vel_i, :, :] = xycut_I
+            self.rht_Q_cube[vel_i, :, :] = xycut_Q
+            self.rht_U_cube[vel_i, :, :] = xycut_U
+            
+        # Create new HDU object
+        hdu_I = fits.PrimaryHDU(self.rht_I_cube)
+        hdu_Q = fits.PrimaryHDU(self.rht_Q_cube)
+        hdu_U = fits.PrimaryHDU(self.rht_U_cube)
+        hdulist_I = fits.HDUList([hdu_I])
+        hdulist_Q = fits.HDUList([hdu_Q])
+        hdulist_U = fits.HDUList([hdu_U])
+        
+        priheader_I = hdulist_I[0].header
+        priheader_Q = hdulist_Q[0].header
+        priheader_U = hdulist_U[0].header
+        
+        # start and end velocities in meters
+        startvel = galfa_vel_helpers.get_galfa_W_truevel(974)*1000
+        stopvel = galfa_vel_helpers.get_galfa_W_truevel(1078)*1000
+        velstep = (stopvel - startvel)/self.nchannels
+        
+        for priheader in [priheader_I, priheader_Q, priheader_U]:
 
+            priheader.set('NAXIS', 3)
+            priheader.set('CTYPE1', 'RA      ')
+            priheader.set('CRPIX1', self.ppv_cube_hdr['CRPIX1'])
+            priheader.set('CRVAL1', self.ppv_cube_hdr['CRVAL1'])
+            priheader.set('CDELT1', self.ppv_cube_hdr['CDELT1'])
+
+            priheader.set('CTYPE2', 'DEC     ')
+            priheader.set('CRPIX2', self.ppv_cube_hdr['CRPIX2'])
+            priheader.set('CRVAL2', self.ppv_cube_hdr['CRVAL2'])
+            priheader.set('CDELT2', self.ppv_cube_hdr['CDELT2'])
+
+            priheader.set('NAXIS3', self.nchannels)
+            priheader.set('CDELT3', velstep)
+            priheader.set('CTYPE3', 'VELO-LSR')
+            priheader.set('CRVAL3', startvel)
+            priheader.set('CRPIX3', 1.000000)
+            
+            priheader.set('EQUINOX', 2000.00)
+            
+            with open('../text/newhistory.txt') as histtext:
+            allhistory = histtext.readlines()
+
+            # strip /n characters, 'HISTORY'
+            allhistory = [x.strip() for x in allhistory] 
+            allhistory = [x.replace('HISTORY ', '') for x in allhistory] 
+
+            for line in allhistory:
+                priheader.set('HISTORY', line)
+            
+        self.hdulist_I = hdulist_I
+        self.hdulist_Q = hdulist_Q
+        self.hdulist_U = hdulist_U
+            
+            
+    def get_RHT_IQU_cubes(self, ashdulist=False):
+        """
+        retrieve (x, y, I), (x, y, Q), and (x, y, U) cubes.
+        """
+        if ashdulist: 
+            return self.hdulist_I, self.hdulist_Q, self.hdulist_U
+        else: 
+            return self.rht_I_cube, self.rht_Q_cube, self.rht_U_cube
             
 
 def make_single_cube_rtheta(RA="180.00", DEC="02.35", rht_velstart="0974", rht_velstop="0978", verbose=False):
@@ -191,6 +262,6 @@ if __name__ == "__main__":
 
     for ra in all_RAs:
         for dec in all_DECs:
-            make_single_cube_rtheta(RA=ra, DEC=dec, rht_velstart="0984", rht_velstop="0988", verbose=True)
+            make_single_cube_rtheta(RA=ra, DEC=dec, rht_velstart="0989", rht_velstop="0993", verbose=True)
 
 
