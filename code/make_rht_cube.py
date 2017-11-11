@@ -209,8 +209,6 @@ class Cube():
         self.hdulist_I = hdulist_I
         self.hdulist_Q = hdulist_Q
         self.hdulist_U = hdulist_U
-        
-        print(hdulist_Q[0].header)
             
             
     def get_RHT_IQU_cubes(self, ashdulist=False):
@@ -246,6 +244,24 @@ def make_single_cube_rtheta(RA="180.00", DEC="02.35", rht_velstart="0974", rht_v
         print("Saving to {}".format(outfn))
     
     hdulist.writeto(outfn)
+
+def make_single_cube_IQU(RA="180.00", DEC="02.35", verbose=False):
+    """
+    create and save I, Q, U cube
+    """
+    cube = Cube(RA=RA, DEC=DEC)
+    cube.get_cube_coordinates_in_allsky()
+    cube.make_RHT_IQU_cubes(verbose=verbose)
+    hdulist_I, hdulist_Q, hdulist_U = cube.get_RHT_IQU_cubes(ashdulist=True)
+    
+    outroot = "/disks/jansky/a/users/goldston/susan/RHT_RC1/IQU_cubes/"
+    outfn_I = outroot + "GALFA-HI_RHT_I_RA+DEC_"+RA+"+"+DEC+".fits"
+    outfn_Q = outroot + "GALFA-HI_RHT_Q_RA+DEC_"+RA+"+"+DEC+".fits"
+    outfn_U = outroot + "GALFA-HI_RHT_U_RA+DEC_"+RA+"+"+DEC+".fits"
+    
+    hdulist_I.writeto(outfn_I)
+    hdulist_Q.writeto(outfn_Q)
+    hdulist_U.writeto(outfn_U)
     
 
 # test
@@ -269,7 +285,7 @@ if __name__ == "__main__":
 
     RA = "156.00"
     DEC = "26.35"
-    rht_velstr="S0974_0978"
-    cube = Cube(RA=RA, DEC=DEC)
-    cube.get_cube_coordinates_in_allsky()
-    cube.make_RHT_IQU_cubes(verbose=True)
+    make_single_cube_IQU(RA=RA, DEC=DEC, verbose=True)
+    
+    
+    
