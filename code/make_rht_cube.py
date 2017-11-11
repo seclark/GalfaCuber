@@ -196,14 +196,14 @@ class Cube():
             priheader.set('EQUINOX', 2000.00)
             
             with open('../text/newhistory.txt') as histtext:
-            allhistory = histtext.readlines()
+                allhistory = histtext.readlines()
 
-            # strip /n characters, 'HISTORY'
-            allhistory = [x.strip() for x in allhistory] 
-            allhistory = [x.replace('HISTORY ', '') for x in allhistory] 
+                # strip /n characters, 'HISTORY'
+                allhistory = [x.strip() for x in allhistory] 
+                allhistory = [x.replace('HISTORY ', '') for x in allhistory] 
 
-            for line in allhistory:
-                priheader.set('HISTORY', line)
+                for line in allhistory:
+                    priheader.set('HISTORY', line)
             
         self.hdulist_I = hdulist_I
         self.hdulist_Q = hdulist_Q
