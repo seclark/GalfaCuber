@@ -139,9 +139,9 @@ class Cube():
         
         # Grab new data
         for vel_i, rht_velstr in enumerate(galfa_vel_helpers.all_rht_velstrs):
-            allsky_I_fn = self.path_to_rht_thetaslices + self.rht_velstr + "/intrht_"+rht_velstr+".fits"
-            allsky_Q_fn = self.path_to_rht_thetaslices + self.rht_velstr + "/QRHT_"+rht_velstr+".fits"
-            allsky_U_fn = self.path_to_rht_thetaslices + self.rht_velstr + "/URHT_"+rht_velstr+".fits"
+            allsky_I_fn = self.path_to_rht_thetaslices + rht_velstr + "/intrht_"+rht_velstr+".fits"
+            allsky_Q_fn = self.path_to_rht_thetaslices + rht_velstr + "/QRHT_"+rht_velstr+".fits"
+            allsky_U_fn = self.path_to_rht_thetaslices + rht_velstr + "/URHT_"+rht_velstr+".fits"
             allsky_I_data = fits.getdata(allsky_I_fn)
             allsky_Q_data = fits.getdata(allsky_Q_fn)
             allsky_U_data = fits.getdata(allsky_U_fn)
