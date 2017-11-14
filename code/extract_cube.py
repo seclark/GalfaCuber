@@ -68,7 +68,7 @@ class NewCube():
         
         
 
-cc = NewCube(RA_min=50., RA_max=60, DEC_min=11, DEC_max=13)
+cc = NewCube(RA_min=50., RA_max=54, DEC_min=11, DEC_max=13)
 print(cc.all_RADEC_strs)
 
 
