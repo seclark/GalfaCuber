@@ -47,8 +47,7 @@ class NewCube():
         all_max_RAs = np.asarray([ra + cube_halflength for ra in all_center_RAs])
 
         # All the center RAs and DECs of the constituent cubes needed to make new cube -- currently works only if > 1 cube
-        self.my_center_RAs = [ra for i, ra in enumerate(all_center_RAs) if all_min_RAs[i] >= self.RA_min and all_max_RAs[i] <= self.RA_max]
-        #self.my_center_DECs = [dec for i, dec in enumerate(all_center_DECs) if all_min_DECs[i] >= self.DEC_min and all_max_DECs[i] <= self.DEC_max]
+        self.my_center_RAs = [ra for i, ra in enumerate(all_center_RAs) if all_max_RAs[i] >= self.RA_min and all_min_RAs[i] <= self.RA_max]
         self.my_center_DECs = [dec for i, dec in enumerate(all_center_DECs) if all_max_DECs[i] >= self.DEC_min and all_min_DECs[i] <= self.DEC_max]
 
 
@@ -69,7 +68,7 @@ class NewCube():
         
         
 
-cc = NewCube(RA_min=50., RA_max=98, DEC_min=2, DEC_max=17)
+cc = NewCube(RA_min=50., RA_max=60, DEC_min=11, DEC_max=13)
 print(cc.all_RADEC_strs)
 
 
