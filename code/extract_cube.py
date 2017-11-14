@@ -55,6 +55,8 @@ class NewCube():
         n_cubes_dec = len(self.my_center_DECs)
         n_cubes_ra = len(self.my_center_RAs)
         print(n_cubes_dec, n_cubes_ra)
+        print(self.my_center_DECs)
+        print(self.my_center_RAs)
 
         # corner RA DEC strings
         self.blc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmin(self.my_center_RAs), np.nanmin(self.my_center_DECs))
@@ -64,7 +66,7 @@ class NewCube():
         
         
 
-cc = NewCube(RA_min=50., RA_max=178, DEC_min=2, DEC_max=17)
+cc = NewCube(RA_min=50., RA_max=98, DEC_min=2, DEC_max=17)
 print(cc.all_RADEC_strs)
 
 
