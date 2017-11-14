@@ -240,7 +240,7 @@ class Cube():
             self.rht_U_cube = fits.getdata(self.fn_U)
             self.hdulist_U = fits.open(self.fn_U)
         
-    def load_RHT_XYT_cube(self, RA="180.00", DEC="02.35", rht_velstart="0974", rht_velstop="0978):
+    def load_RHT_XYT_cube(self, RA="180.00", DEC="02.35", rht_velstart="0974", rht_velstop="0978"):
         """
         Load XYT cube from file
         """
