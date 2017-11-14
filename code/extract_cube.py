@@ -27,6 +27,7 @@ class NewCube():
         self.RA_max = np.float(RA_max)
         self.DEC_min = np.float(DEC_min)
         self.DEC_max = np.float(DEC_max)
+        print(self.DEC_min, self.DEC_max)
         
         # create a flag for 180-wrapped RA. Deal with this later.
         if self.RA_max < self.RA_min:
