@@ -72,7 +72,7 @@ class NewCube():
     
         for ra, dec in self.all_RADEC_str_pairs:
             ppv_cube = galfa_cuber.Cube(RA=ra, DEC=dec)
-            ppv_cube_wcs = cutouts.make_wcs(cube.ppv_cube_fn)
+            ppv_cube_wcs = cutouts.make_wcs(ppv_cube.ppv_cube_fn)
             
             x, y =cutouts.radec_to_xy(self.RA_min, self.DEC_min)
             print(x, y)
