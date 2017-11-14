@@ -90,7 +90,7 @@ class NewCube():
             #    print(np.round(self.naxis1 - xmin))
             #    self.max_len_RA -= np.round(self.naxis1 - xmin)
             
-            self.max_len_DEC -= (self.naxis1 - (xmin - xmax))    
+            self.max_len_RA -= (self.naxis1 - (xmin - xmax))    
             self.max_len_DEC -= (self.naxis2 - (ymax - ymin))
             
             print("xmin, xmax, xmin-xmax = ", xmin, xmax, xmin-xmax)
@@ -99,12 +99,11 @@ class NewCube():
             print("xmin, ymin", xmin, ymin)
             print("xmax, ymax", xmax, ymax)
             print(self.max_len_RA)
-        
-        # the lazy way -- make big cube, then refine
-        #bigcube = 
+            print(self.max_len_DEC)
+
         
 
-cc = NewCube(RA_min=50., RA_max=154, DEC_min=11, DEC_max=22)
+cc = NewCube(RA_min=50., RA_max=154, DEC_min=11, DEC_max=14)
 print(cc.all_RADEC_strs)
 
 gg=galfa_cuber.Cube(RA="004.00", DEC="02.35")
