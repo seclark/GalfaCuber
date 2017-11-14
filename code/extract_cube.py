@@ -74,7 +74,7 @@ class NewCube():
             ppv_cube = galfa_cuber.Cube(RA=ra, DEC=dec)
             ppv_cube_wcs = cutouts.make_wcs(ppv_cube.ppv_cube_fn)
             
-            x, y =cutouts.radec_to_xy(self.RA_min, self.DEC_min)
+            x, y =cutouts.radec_to_xy(self.RA_min, self.DEC_min, ppv_cube_wcs)
             print(x, y)
         
         # the lazy way -- make big cube, then refine
