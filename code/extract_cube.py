@@ -85,7 +85,7 @@ class NewCube():
                 self.max_len_RA -= np.round(self.naxis1 - xmin)
                 
             print("xmin, ymin", xmin, ymin)
-            print("xmax, ymax", xmin, ymin)
+            print("xmax, ymax", xmax, ymax)
             print(self.max_len_RA)
         
         # the lazy way -- make big cube, then refine
