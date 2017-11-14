@@ -74,8 +74,7 @@ class NewCube():
         # must step first through dec, then ra -- can't do them at the same time because will double-count
         for r in self.my_center_RAs:
             ra = "{:06.2f}".format(r)
-            print(self.my_center_DECs[0])
-            ppv_cube = galfa_cuber.Cube(RA=ra, DEC=self.my_center_DECs[0])
+            ppv_cube = galfa_cuber.Cube(RA=ra, DEC="{:05.2f}".format(self.my_center_DECs[0]))
             
             ppv_cube_wcs = cutouts.make_wcs(ppv_cube.ppv_cube_fn)
             print(ra, dec)
@@ -97,7 +96,7 @@ class NewCube():
             
         for d in self.my_center_DECs:
             dec = "{:05.2f}".format(d)
-            ppv_cube = galfa_cuber.Cube(RA=self.my_center_RAs[0], DEC=dec)
+            ppv_cube = galfa_cuber.Cube(RA="{:06.2f}".format(self.my_center_RAs[0]), DEC=dec)
             
             ppv_cube_wcs = cutouts.make_wcs(ppv_cube.ppv_cube_fn)
             print(ra, dec)
