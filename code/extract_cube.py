@@ -80,10 +80,10 @@ class NewCube():
             xmin, ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, ppv_cube_wcs)
             xmax, ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, ppv_cube_wcs)
             
-            xmin = max(np.ceil(xmin), np.naxis1)
+            xmin = max(np.ceil(xmin), self.naxis1)
             xmax = min(np.floor(xmax), 0)
             ymin = min(np.floor(ymin), 0)
-            ymax = max(np.ceil(ymax), np.naxis2)
+            ymax = max(np.ceil(ymax), self.naxis2)
             
             #if xmin > 0 and xmin < self.naxis1:
             #    print("xmin, naxis1", xmin, self.naxis1)
