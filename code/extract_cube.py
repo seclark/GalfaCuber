@@ -62,22 +62,27 @@ class NewCube():
         print(self.n_cubes_dec, self.n_cubes_ra)
         print(self.my_center_DECs)
         print(self.my_center_RAs)
-
-        # corner RA DEC strings
-        self.blc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmin(self.my_center_RAs), np.nanmin(self.my_center_DECs))
-        self.ulc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmin(self.my_center_RAs), np.nanmax(self.my_center_DECs))
-        self.brc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmax(self.my_center_RAs), np.nanmin(self.my_center_DECs))
-        self.urc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmax(self.my_center_RAs), np.nanmax(self.my_center_DECs))
+        
+        # number of overlap segments -- 32 pixels wide each -- is 1 less than number of cubes in each dimension
+        self.naxis1 = 512
+        self.naxis2 = 512
+        self.max_len_RA = (self.naxis1 * self.n_cubes_ra) - ((self.n_cubes_ra - 1) * 32)
+        self.max_len_DEC = (self.naxis2 * self.n_cubes_dec) - ((self.n_cubes_dec - 1) * 32)
     
-        default_cube_dec_len = self.n_cubes_dec*512
-        default_cube_ra_len = self.n_cubes_ra*512
+        # RA incr to left?
         
         for ra, dec in self.all_RADEC_str_pairs:
             ppv_cube = galfa_cuber.Cube(RA=ra, DEC=dec)
             ppv_cube_wcs = cutouts.make_wcs(ppv_cube.ppv_cube_fn)
+            print(ra, dec)
             
-            x, y = cutouts.radec_to_xy(self.RA_min, self.DEC_min, ppv_cube_wcs)
-            print(x, y)
+            xmin, ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, ppv_cube_wcs)
+            if xmin > 0 and xmin < self.naxis1:
+                print(np.round(self.naxis1 - xmin))
+                self.max_len_RA -= np.round(self.naxis1 - xmin):
+                
+            print(xmin, ymin)
+            print(self.max_len_RA)
         
         # the lazy way -- make big cube, then refine
         #bigcube = 
