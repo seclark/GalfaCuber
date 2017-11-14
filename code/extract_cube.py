@@ -70,7 +70,7 @@ class NewCube():
         self.urc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmax(self.my_center_RAs), np.nanmax(self.my_center_DECs))
     
     
-        for ra, dec in self.all_RADEC_strs:
+        for ra, dec in self.all_RADEC_str_pairs:
             ppv_cube = galfa_cuber.Cube(RA=ra, DEC=dec)
             ppv_cube_wcs = cutouts.make_wcs(cube.ppv_cube_fn)
             
