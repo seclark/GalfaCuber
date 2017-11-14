@@ -2,6 +2,7 @@ from __future__ import division
 import numpy as np
 from astropy.io import fits
 import re
+import os
 
 import sys 
 sys.path.insert(0, '../../FITSHandling/code')
@@ -31,14 +32,15 @@ class Cube():
         self.naxis1 = self.ppv_cube_hdr['NAXIS1']
         self.naxis2 = self.ppv_cube_hdr['NAXIS2']
         
-        # get allsky RHT data header
-        self.path_to_rht_thetaslices = "/disks/jansky/a/users/goldston/susan/Wide_maps/single_theta_maps/"
-        self.galfa_allsky_hdr = fits.getheader(self.path_to_rht_thetaslices+"S0974_0978/intrht_S0974_0978.fits")
 
     def get_cube_coordinates_in_allsky(self):
         """
         x, y start, stop in coordinates of allsky data
         """
+        
+        # get allsky RHT data header
+        self.path_to_rht_thetaslices = "/disks/jansky/a/users/goldston/susan/Wide_maps/single_theta_maps/"
+        self.galfa_allsky_hdr = fits.getheader(self.path_to_rht_thetaslices+"S0974_0978/intrht_S0974_0978.fits")
     
         # Actually grab cube edges
         cube_w = cutouts.make_wcs(self.ppv_cube_fn)
@@ -150,8 +152,6 @@ class Cube():
             xycut_hdr, xycut_I = cutouts.xycutout_data(allsky_I_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart, xstop=self.cutout_xstop, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
             xycut_hdr, xycut_Q = cutouts.xycutout_data(allsky_Q_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart, xstop=self.cutout_xstop, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
             xycut_hdr, xycut_U = cutouts.xycutout_data(allsky_U_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart, xstop=self.cutout_xstop, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
-            #if verbose:
-            #    print(self.cutout_xstart, self.cutout_xstop, self.cutout_ystart, self.cutout_ystop)
             
             self.rht_I_cube[vel_i, :, :] = xycut_I
             self.rht_Q_cube[vel_i, :, :] = xycut_Q
@@ -174,6 +174,7 @@ class Cube():
         stopvel = np.float(galfa_vel_helpers.get_galfa_W_truevel(1078))*1000
         velstep = (stopvel - startvel)/self.nchannels
         
+        # Create header
         for priheader in [priheader_I, priheader_Q, priheader_U]:
 
             priheader.set('NAXIS', 3)
@@ -218,7 +219,40 @@ class Cube():
             return self.hdulist_I, self.hdulist_Q, self.hdulist_U
         else: 
             return self.rht_I_cube, self.rht_Q_cube, self.rht_U_cube
+    
+    def load_RHT_IQU_cubes(self):
+        """
+        Load IQU cubes from file 
+        """
+        
+        self.IQU_root = "/disks/jansky/a/users/goldston/susan/RHT_RC1/IQU_cubes/"
+        self.fn_I = self.IQU_root + "GALFA-HI_RHT_I_RA+DEC_"+self.RA+"+"+self.DEC+".fits"
+        self.fn_Q = self.IQU_root + "GALFA-HI_RHT_Q_RA+DEC_"+self.RA+"+"+self.DEC+".fits"
+        self.fn_U = self.IQU_root + "GALFA-HI_RHT_U_RA+DEC_"+self.RA+"+"+self.DEC+".fits"
+        
+        if os.path.isfile(self.fn_I):
+            self.rht_I_cube = fits.getdata(self.fn_I)
+            self.hdulist_I = fits.open(self.fn_I)
+        if os.path.isfile(self.fn_Q):
+            self.rht_Q_cube = fits.getdata(self.fn_Q)
+            self.hdulist_Q = fits.open(self.fn_Q)
+        if os.path.isfile(self.fn_U):
+            self.rht_U_cube = fits.getdata(self.fn_U)
+            self.hdulist_U = fits.open(self.fn_U)
+        
+    def load_RHT_XYT_cube(self, RA="180.00", DEC="02.35", rht_velstart="0974", rht_velstop="0978):
+        """
+        Load XYT cube from file
+        """
+        self.velstart = galfa_vel_helpers.galfa_name_dict[rht_velstart]
+        self.velstop = galfa_vel_helpers.galfa_name_dict[rht_velstop]
             
+        self.XYT_root = "/disks/jansky/a/users/goldston/susan/RHT_RC1/Rtheta_cubes/"
+        self.xyt_fn = self.XYT_root + rht_velstr + "/GALFA-HI_RHT_spect_v"+self.velstart+"_"+self.velstop+"_RA+DEC_"+self.RA+"+"+self.DEC+".fits"      
+        
+        if os.path.isfile(self.xyt_fn):
+            self.rht_data_cube = fits.getdata(self.xyt_fn)
+            self.hdulist = fits.open(self.xyt_fn)
 
 def make_single_cube_rtheta(RA="180.00", DEC="02.35", rht_velstart="0974", rht_velstop="0978", verbose=False):
     """
