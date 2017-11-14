@@ -57,10 +57,10 @@ class NewCube():
         print(n_cubes_dec, n_cubes_ra)
 
         # corner RA DEC strings
-        self.blc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmin(my_center_RAs), np.nanmin(my_center_DECs))
-        self.ulc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmin(my_center_RAs), np.nanmax(my_center_DECs))
-        self.brc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmax(my_center_RAs), np.nanmin(my_center_DECs))
-        self.urc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmax(my_center_RAs), np.nanmax(my_center_DECs))
+        self.blc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmin(self.my_center_RAs), np.nanmin(self.my_center_DECs))
+        self.ulc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmin(self.my_center_RAs), np.nanmax(self.my_center_DECs))
+        self.brc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmax(self.my_center_RAs), np.nanmin(self.my_center_DECs))
+        self.urc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmax(self.my_center_RAs), np.nanmax(self.my_center_DECs))
         
         
 
