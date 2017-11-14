@@ -45,12 +45,26 @@ class NewCube():
         all_min_RAs = np.asarray([ra - cube_halflength for ra in all_center_RAs])
         all_max_RAs = np.asarray([ra + cube_halflength for ra in all_center_RAs])
 
-        # All the center RAs and DECs of the constituent cubes needed to make new cube
-        my_center_RAs = [ra for i, ra in enumerate(all_center_RAs) if all_min_RAs[i] > self.RA_min and all_max_RAs[i] < self.RA_max]
-        my_center_DECs = [dec for i, dec in enumerate(all_center_DECs) if all_min_DECs[i] > self.DEC_min and all_max_DECs[i] < self.DEC_max]
+        # All the center RAs and DECs of the constituent cubes needed to make new cube -- currently works only if > 1 cube
+        self.my_center_RAs = [ra for i, ra in enumerate(all_center_RAs) if all_min_RAs[i] > self.RA_min and all_max_RAs[i] < self.RA_max]
+        self.my_center_DECs = [dec for i, dec in enumerate(all_center_DECs) if all_min_DECs[i] > self.DEC_min and all_max_DECs[i] < self.DEC_max]
 
         [str(a)+"."+str(b) for (a, b) in itertools.product([5, 6, 3], [3,4])]
-        self.all_RADEC_strs = ["RA+DEC_{:06.2f}+{:05.2f}".format(ra, dec) for (ra, dec) in itertools.product(my_center_RAs, my_center_DECs)]
+        self.all_RADEC_strs = ["RA+DEC_{:06.2f}+{:05.2f}".format(ra, dec) for (ra, dec) in itertools.product(self.my_center_RAs, self.my_center_DECs)]
+        
+        n_cubes_dec = len(self.my_center_DECs)
+        n_cubes_ra = len(self.my_center_RAs)
+        print(n_cubes_dec, n_cubes_ra)
+
+        # corner RA DEC strings
+        self.blc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmin(my_center_RAs), np.nanmin(my_center_DECs))
+        self.ulc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmin(my_center_RAs), np.nanmax(my_center_DECs))
+        self.brc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmax(my_center_RAs), np.nanmin(my_center_DECs))
+        self.urc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmax(my_center_RAs), np.nanmax(my_center_DECs))
+        
+        
 
 cc = NewCube(RA_min=50., RA_max=178, DEC_min=2, DEC_max=17)
 print(cc.all_RADEC_strs)
+
+
