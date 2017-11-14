@@ -51,3 +51,6 @@ class NewCube():
 
         [str(a)+"."+str(b) for (a, b) in itertools.product([5, 6, 3], [3,4])]
         self.all_RADEC_strs = ["RA+DEC_{:06.2f}+{:05.2f}".format(ra, dec) for (ra, dec) in itertools.product(my_center_RAs, my_center_DECs)]
+
+cc = NewCube(RA_min=50., RA_max=78, DEC_min=2, DEC_max=10)
+print(cc.all_RADEC_strs)
