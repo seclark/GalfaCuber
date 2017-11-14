@@ -79,7 +79,7 @@ class NewCube():
             xmin, ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, ppv_cube_wcs)
             if xmin > 0 and xmin < self.naxis1:
                 print(np.round(self.naxis1 - xmin))
-                self.max_len_RA -= np.round(self.naxis1 - xmin):
+                self.max_len_RA -= np.round(self.naxis1 - xmin)
                 
             print(xmin, ymin)
             print(self.max_len_RA)
