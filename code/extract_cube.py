@@ -63,11 +63,11 @@ class NewCube():
         print(self.my_center_DECs)
         print(self.my_center_RAs)
         
-        # number of overlap segments -- 32 pixels wide each -- is 1 less than number of cubes in each dimension
+        # number of overlap segments -- 32 pixels wide each -- is 1 less than number of cubes in each dimension. Subtract 16 = half overlap region
         self.naxis1 = 512
         self.naxis2 = 512
-        self.max_len_RA = (self.naxis1 * self.n_cubes_ra) - ((self.n_cubes_ra - 1) * 32)
-        self.max_len_DEC = (self.naxis2 * self.n_cubes_dec) - ((self.n_cubes_dec - 1) * 32)
+        self.max_len_RA = (self.naxis1 * self.n_cubes_ra) - ((self.n_cubes_ra - 1) * 16)
+        self.max_len_DEC = (self.naxis2 * self.n_cubes_dec) - ((self.n_cubes_dec - 1) * 16)
         print(self.max_len_RA)
     
         # RA incr to left?
@@ -79,6 +79,7 @@ class NewCube():
             
             xmin, ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, ppv_cube_wcs)
             if xmin > 0 and xmin < self.naxis1:
+                print(xmin, self.naxis1)
                 print(np.round(self.naxis1 - xmin))
                 self.max_len_RA -= np.round(self.naxis1 - xmin)
                 
