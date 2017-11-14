@@ -71,7 +71,52 @@ class NewCube():
         print(self.max_len_RA)
     
         # RA incr to left? yes- should round min up, max down to recover max area 
-        
+        # must step first through dec, then ra -- can't do them at the same time because will double-count
+        for r in self.my_center_RAs:
+            ra = "{:06.2f}".format(ra)
+            ppv_cube = galfa_cuber.Cube(RA=ra, DEC=self.my_center_DECs[0])
+            
+            ppv_cube_wcs = cutouts.make_wcs(ppv_cube.ppv_cube_fn)
+            print(ra, dec)
+            
+            xmin, ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, ppv_cube_wcs)
+            xmax, ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, ppv_cube_wcs)
+            
+            xmin = min(np.ceil(xmin), self.naxis1)
+            xmax = max(np.floor(xmax), 0)
+            
+            self.max_len_RA -= (self.naxis1 - (xmin - xmax))    
+            
+            print("xmin, xmax, xmin-xmax = ", xmin, xmax, xmin-xmax)
+                
+            print("xmin, ymin", xmin, ymin)
+            print("xmax, ymax", xmax, ymax)
+            print(self.max_len_RA)
+            print(self.max_len_DEC)
+            
+        for d in self.my_center_DECs:
+            dec = "{:05.2f}".format(d)
+            ppv_cube = galfa_cuber.Cube(RA=self.my_center_RAs[0], DEC=dec)
+            
+            ppv_cube_wcs = cutouts.make_wcs(ppv_cube.ppv_cube_fn)
+            print(ra, dec)
+            
+            xmin, ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, ppv_cube_wcs)
+            xmax, ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, ppv_cube_wcs)
+            
+            ymin = max(np.floor(ymin), 0)
+            ymax = min(np.ceil(ymax), self.naxis2)
+            
+            self.max_len_RA -= (self.naxis1 - (xmin - xmax))    
+            
+            print("xmin, xmax, xmin-xmax = ", xmin, xmax, xmin-xmax)
+                
+            print("xmin, ymin", xmin, ymin)
+            print("xmax, ymax", xmax, ymax)
+            print(self.max_len_RA)
+            print(self.max_len_DEC)
+            
+        """
         for ra, dec in self.all_RADEC_str_pairs:
             ppv_cube = galfa_cuber.Cube(RA=ra, DEC=dec)
             ppv_cube_wcs = cutouts.make_wcs(ppv_cube.ppv_cube_fn)
@@ -100,7 +145,7 @@ class NewCube():
             print("xmax, ymax", xmax, ymax)
             print(self.max_len_RA)
             print(self.max_len_DEC)
-
+         """
         
 
 cc = NewCube(RA_min=50., RA_max=154, DEC_min=11, DEC_max=14)
