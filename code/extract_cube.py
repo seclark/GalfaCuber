@@ -69,12 +69,14 @@ class NewCube():
         self.brc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmax(self.my_center_RAs), np.nanmin(self.my_center_DECs))
         self.urc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmax(self.my_center_RAs), np.nanmax(self.my_center_DECs))
     
-    
+        default_cube_dec_len = self.n_cubes_dec*512
+        default_cube_ra_len = self.n_cubes_ra*512
+        
         for ra, dec in self.all_RADEC_str_pairs:
             ppv_cube = galfa_cuber.Cube(RA=ra, DEC=dec)
             ppv_cube_wcs = cutouts.make_wcs(ppv_cube.ppv_cube_fn)
             
-            x, y =cutouts.radec_to_xy(self.RA_min, self.DEC_min, ppv_cube_wcs)
+            x, y = cutouts.radec_to_xy(self.RA_min, self.DEC_min, ppv_cube_wcs)
             print(x, y)
         
         # the lazy way -- make big cube, then refine
@@ -84,4 +86,12 @@ class NewCube():
 cc = NewCube(RA_min=50., RA_max=54, DEC_min=11, DEC_max=13)
 print(cc.all_RADEC_strs)
 
+gg=galfa_cuber.Cube(RA="016.00", DEC="2.35")
+gg_cube_wcs = cutouts.make_wcs(gg.ppv_cube_fn)
+x, y = cutouts.xy_to_radec(512, 512, gg_cube_wcs)
+print(x, y)
+gg2=galfa_cuber.Cube(RA="24.00", DEC="10.35")
+gg2_cube_wcs = cutouts.make_wcs(gg2.ppv_cube_fn)
+x, y = cutouts.xy_to_radec(0, 0, gg2_cube_wcs)
+print(x, y)
 
