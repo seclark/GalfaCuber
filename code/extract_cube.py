@@ -78,12 +78,14 @@ class NewCube():
             print(ra, dec)
             
             xmin, ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, ppv_cube_wcs)
+            xmax, ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, ppv_cube_wcs)
             if xmin > 0 and xmin < self.naxis1:
                 print("xmin, naxis1", xmin, self.naxis1)
                 print(np.round(self.naxis1 - xmin))
                 self.max_len_RA -= np.round(self.naxis1 - xmin)
                 
-            print(xmin, ymin)
+            print("xmin, ymin", xmin, ymin)
+            print("xmax, ymax", xmin, ymin)
             print(self.max_len_RA)
         
         # the lazy way -- make big cube, then refine
