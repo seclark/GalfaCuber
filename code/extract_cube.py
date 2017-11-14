@@ -86,7 +86,7 @@ class NewCube():
 cc = NewCube(RA_min=50., RA_max=54, DEC_min=11, DEC_max=13)
 print(cc.all_RADEC_strs)
 
-gg=galfa_cuber.Cube(RA="004.00", DEC="2.35")
+gg=galfa_cuber.Cube(RA="004.00", DEC="02.35")
 gg_cube_wcs = cutouts.make_wcs(gg.ppv_cube_fn)
 x, y = cutouts.xy_to_radec(512, 512, gg_cube_wcs)
 print(x, y)
