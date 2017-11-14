@@ -70,7 +70,7 @@ class NewCube():
         self.max_len_DEC = (self.naxis2 * self.n_cubes_dec) - ((self.n_cubes_dec - 1) * 16)
         print(self.max_len_RA)
     
-        # RA incr to left?
+        # RA incr to left? yes- should round min up, max down to recover max area 
         
         for ra, dec in self.all_RADEC_str_pairs:
             ppv_cube = galfa_cuber.Cube(RA=ra, DEC=dec)
@@ -79,10 +79,22 @@ class NewCube():
             
             xmin, ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, ppv_cube_wcs)
             xmax, ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, ppv_cube_wcs)
-            if xmin > 0 and xmin < self.naxis1:
-                print("xmin, naxis1", xmin, self.naxis1)
-                print(np.round(self.naxis1 - xmin))
-                self.max_len_RA -= np.round(self.naxis1 - xmin)
+            
+            xmin = np.ceil(xmin)
+            xmax = np.floor(xmax)
+            ymin = np.floor(ymin)
+            ymax = np.ceil(ymax)
+            
+            #if xmin > 0 and xmin < self.naxis1:
+            #    print("xmin, naxis1", xmin, self.naxis1)
+            #    print(np.round(self.naxis1 - xmin))
+            #    self.max_len_RA -= np.round(self.naxis1 - xmin)
+            
+            self.max_len_DEC -= (self.naxis1 - (xmin - xmax))    
+            self.max_len_DEC -= (self.naxis2 - (ymax - ymin))
+            
+            print("xmin, xmax, xmin-xmax = ", xmin, xmax, xmin-xmax)
+            print("ymin, ymax, ymax-ymin = ", ymin, ymax, ymax-ymin)
                 
             print("xmin, ymin", xmin, ymin)
             print("xmax, ymax", xmax, ymax)
