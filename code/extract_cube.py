@@ -104,7 +104,7 @@ class NewCube():
         #bigcube = 
         
 
-cc = NewCube(RA_min=50., RA_max=54, DEC_min=11, DEC_max=13)
+cc = NewCube(RA_min=50., RA_max=154, DEC_min=11, DEC_max=22)
 print(cc.all_RADEC_strs)
 
 gg=galfa_cuber.Cube(RA="004.00", DEC="02.35")
