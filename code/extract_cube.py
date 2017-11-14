@@ -53,7 +53,7 @@ class NewCube():
         # RA+DEC strings for all constituent cubes
         [str(a)+"."+str(b) for (a, b) in itertools.product([5, 6, 3], [3,4])]
         self.all_RADEC_strs = ["RA+DEC_{:06.2f}+{:05.2f}".format(ra, dec) for (ra, dec) in itertools.product(self.my_center_RAs, self.my_center_DECs)]
-        self.all_RADEC_str_pairs = [zip("{:06.2f}".format(ra), "{:05.2f}".format(dec)) for (ra, dec) in itertools.product(self.my_center_RAs, self.my_center_DECs)]
+        self.all_RADEC_str_pairs = [("{:06.2f}".format(ra), "{:05.2f}".format(dec)) for (ra, dec) in itertools.product(self.my_center_RAs, self.my_center_DECs)]
         
         print(self.all_RADEC_str_pairs)
         
@@ -70,7 +70,7 @@ class NewCube():
         self.urc = "RA+DEC_{:06.2f}+{:05.2f}".format(np.nanmax(self.my_center_RAs), np.nanmax(self.my_center_DECs))
     
     
-        for (ra, dec) in self.all_RADEC_strs:
+        for ra, dec in self.all_RADEC_strs:
             ppv_cube = galfa_cuber.Cube(RA=ra, DEC=dec)
             ppv_cube_wcs = cutouts.make_wcs(cube.ppv_cube_fn)
             
