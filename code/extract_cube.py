@@ -68,6 +68,7 @@ class NewCube():
         self.naxis2 = 512
         self.max_len_RA = (self.naxis1 * self.n_cubes_ra) - ((self.n_cubes_ra - 1) * 32)
         self.max_len_DEC = (self.naxis2 * self.n_cubes_dec) - ((self.n_cubes_dec - 1) * 32)
+        print(self.max_len_RA)
     
         # RA incr to left?
         
