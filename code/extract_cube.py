@@ -107,7 +107,7 @@ class NewCube():
             ymin = max(np.floor(ymin), 0)
             ymax = min(np.ceil(ymax), self.naxis2)
             
-            self.max_len_RA -= (self.naxis1 - (xmin - xmax))    
+            self.max_len_DEC -= (self.naxis2 - (ymax - ymin))
             
             print("xmin, xmax, xmin-xmax = ", xmin, xmax, xmin-xmax)
                 
