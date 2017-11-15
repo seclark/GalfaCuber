@@ -196,10 +196,10 @@ class NewCube():
             # find start and end pixels in new cube
             new_xmin, new_ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, self.new_cube_flat_wcs)
             new_xmax, new_ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, self.new_cube_flat_wcs)
-            new_xmin = np.ceil(new_xmin)
-            new_xmax = np.floor(new_xmax)
-            new_ymin = np.floor(new_ymin)
-            new_ymax = np.ceil(new_ymax)
+            new_xmin = np.int(np.ceil(new_xmin))
+            new_xmax = np.int(np.floor(new_xmax))
+            new_ymin = np.int(np.floor(new_ymin))
+            new_ymax = np.int(np.ceil(new_ymax))
             
             print("new x y coords: ", new_xmin, new_ymin, new_xmax, new_ymax)
             self.RHT_XYT_cube[:, new_ymin:new_ymax, new_xmax:new_xmin] = rht_xyt_smallcube[:, ymin:ymax, xmax:xmin]
