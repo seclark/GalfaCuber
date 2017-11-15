@@ -123,10 +123,10 @@ class NewCube():
             xmin, ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, xyt_cube_wcs)
             xmax, ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, xyt_cube_wcs)
             
-            xmin = np.int(min(np.ceil(xmin), self.naxis1+1))
+            xmin = np.int(min(np.ceil(xmin), self.naxis1))
             xmax = np.int(max(np.floor(xmax), 0))
             ymin = np.int(max(np.floor(ymin), 0))
-            ymax = np.int(min(np.ceil(ymax), self.naxis2+1))
+            ymax = np.int(min(np.ceil(ymax), self.naxis2))
             
             # find start and end points in large new cube
             #large_cube_wcs = copy.copy(xyt_cube_wcs)
@@ -138,16 +138,16 @@ class NewCube():
             ramax, decmax = cutouts.xy_to_radec(xmax, ymax, xyt_cube_wcs)
             new_xmin, new_ymin = cutouts.radec_to_xy(ramin, decmin, self.new_cube_flat_wcs)
             new_xmax, new_ymax = cutouts.radec_to_xy(ramax, decmax, self.new_cube_flat_wcs)
-            new_xmin = np.int(min(np.ceil(new_xmin), self.newcube_xlen+1))
+            new_xmin = np.int(min(np.ceil(new_xmin), self.newcube_xlen))
             new_xmax = np.int(max(np.floor(new_xmax), 0))
             new_ymin = np.int(max(np.floor(new_ymin), 0))
-            new_ymax = np.int(min(np.ceil(new_ymax), self.newcube_ylen+1))
+            new_ymax = np.int(min(np.ceil(new_ymax), self.newcube_ylen))
             
             print("new x y coords: ", new_xmin, new_ymin, new_xmax, new_ymax)
             print("insert x y coords: ", xmin, ymin, xmax, ymax)
             self.RHT_XYT_cube[:, new_ymin:new_ymax, new_xmax:new_xmin] = rht_xyt_smallcube[:, ymin:ymax, xmax:xmin]
 
-cc = NewCube(RA_min=50., RA_max=53, DEC_min=11, DEC_max=14)
+cc = NewCube(RA_min=50., RA_max=53, DEC_min=11, DEC_max=18)
 cc.make_RHT_XYT_cube()
 print(cc.all_RADEC_strs)
 
