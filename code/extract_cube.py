@@ -200,7 +200,7 @@ class NewCube():
             new_xmax, new_ymax = cutouts.radec_to_xy(ramax, decmax, self.new_cube_flat_wcs)
             new_xmin = np.int(np.ceil(new_xmin))
             new_xmax = np.int(np.floor(new_xmax))
-            new_ymin = np.int(np.floor(new_ymin))
+            new_ymin = np.int(max(np.floor(new_ymin), 0))
             new_ymax = np.int(np.ceil(new_ymax))
             
             print("new x y coords: ", new_xmin, new_ymin, new_xmax, new_ymax)
