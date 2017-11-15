@@ -246,6 +246,7 @@ class Cube():
         """
         self.velstart = galfa_vel_helpers.galfa_name_dict[rht_velstart]
         self.velstop = galfa_vel_helpers.galfa_name_dict[rht_velstop]
+        rht_velstr = "S"+rht_velstart+"_"+rht_velstop
             
         self.XYT_root = "/disks/jansky/a/users/goldston/susan/RHT_RC1/Rtheta_cubes/"
         self.xyt_fn = self.XYT_root + rht_velstr + "/GALFA-HI_RHT_spect_v"+self.velstart+"_"+self.velstop+"_RA+DEC_"+self.RA+"+"+self.DEC+".fits"      
