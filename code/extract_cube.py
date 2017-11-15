@@ -71,6 +71,8 @@ class NewCube():
         self.max_len_DEC = (self.naxis2 * self.n_cubes_dec) - ((self.n_cubes_dec - 1) * 16)
         print(self.max_len_RA)
     
+        self.new_RA_min = copy.copy(self.RA_min)
+        self.new_RA_max = copy.copy(self.RA_max)
         # RA incr to left? yes- should round min up, max down to recover max area 
         # must step first through dec, then ra -- can't do them at the same time because will double-count
         for r in self.my_center_RAs:
@@ -87,6 +89,16 @@ class NewCube():
             xmax = max(np.floor(xmax), 0)
             
             self.max_len_RA -= (self.naxis1 - (xmin - xmax))    
+            
+            new_ra_min, new_dec_min = cutouts.xy_to_radec(xmin, ymin, ppv_cube_wcs)
+            new_ra_max, new_dec_max = cutouts.xy_to_radec(xmax, ymax, ppv_cube_wcs)
+            
+            if new_ra_min > self.new_RA_min:
+                self.new_RA_min = new_ra_min
+                print("setting new RA min = {}".format(new_ra_min))
+            if new_ra_max < self.new_RA_max:
+                self.new_RA_max = new_ra_max
+                print("setting new RA max = {}".format(new_ra_max))
             
             print("xmin, xmax, xmin-xmax = ", xmin, xmax, xmin-xmax)
                 
@@ -129,6 +141,15 @@ class NewCube():
         print("DEC, RA", self.max_len_DEC, self.max_len_RA)
         self.RHT_XYT_cube = np.zeros((self.nthets, self.max_len_DEC, self.max_len_RA), np.float_)
         
+        w = wcs.WCS(naxis=2)
+
+        # Set up an "Airy's zenithal" projection
+        # Vector properties may be set with Python lists, or Numpy arrays
+        w.wcs.crpix = [self.max_len_DEC/2.0, self.max_len_RA/2.0]
+        w.wcs.cdelt = numpy.array([0.0166667, -0.0166667])
+        w.wcs.crval = [0, -90]
+        w.wcs.ctype = ["RA      ", "DEC     "]
+        
         for ra, dec in self.all_RADEC_str_pairs:
             # load small xyt cube
             ppv_cube = galfa_cuber.Cube(RA=ra, DEC=dec)
@@ -148,9 +169,11 @@ class NewCube():
             ymax = min(np.ceil(ymax), self.naxis2)
             
             # find start and end points in large new cube
-            large_cube_wcs = copy.copy(xyt_cube_wcs)
-            large_cube_wcs.wcs.naxis1 = self.max_len_RA
-            large_cube_wcs.wcs.naxis2 = self.max_len_DEC
+            #large_cube_wcs = copy.copy(xyt_cube_wcs)
+            #large_cube_wcs.wcs.naxis1 = self.max_len_RA
+            #large_cube_wcs.wcs.naxis2 = self.max_len_DEC
+            
+            
             new_xmin, new_ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, large_cube_wcs)
             new_xmax, new_ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, large_cube_wcs)
             new_xmin = np.ceil(new_xmin)
