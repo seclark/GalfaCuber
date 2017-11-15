@@ -55,8 +55,8 @@ class NewCube():
         self.allsky_ystart = np.int(np.floor(allsky_y1))
         self.allsky_ystop = np.int(np.ceil(allsky_y2))
         
-        self.newcube_xlen = (self.allsky_xstop - self.allsky_xstart)
-        self.newcube_ylen = (self.allsky_ystop - self.allsky_ystart)
+        self.newcube_xlen = (self.allsky_xstop - self.allsky_xstart) +1
+        self.newcube_ylen = (self.allsky_ystop - self.allsky_ystart) + 1
         print("new cube xlen, ylen = {}, {}".format(self.newcube_xlen, self.newcube_ylen))
         self.newcube_centerRA, self.newcube_centerDEC = cutouts.xy_to_radec(self.allsky_xstart + self.newcube_xlen/2.0, self.allsky_ystart + self.newcube_ylen/2.0, allsky_w)
         
