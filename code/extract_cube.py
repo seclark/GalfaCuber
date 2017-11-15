@@ -1,5 +1,6 @@
 from __future__ import division, print_function
 import numpy as np
+from astropy import wcs
 from astropy.io import fits
 import itertools
 import re
