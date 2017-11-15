@@ -50,10 +50,10 @@ class NewCube():
         allsky_x2, allsky_y2 = cutouts.radec_to_xy(self.RA_min, self.DEC_max, allsky_w) # URH corner
 
         # ROUND to integer x, y. Necessary because allsky header does not quite match up. Valid per Yong's check.
-        self.allsky_xstart = np.int(np.round(allsky_x1))
-        self.allsky_xstop = np.int(np.round(allsky_x2))
-        self.allsky_ystart = np.int(np.round(allsky_y1))
-        self.allsky_ystop = np.int(np.round(allsky_y2))
+        self.allsky_xstart = np.int(np.floor(allsky_x1))
+        self.allsky_xstop = np.int(np.ceil(allsky_x2))
+        self.allsky_ystart = np.int(np.floor(allsky_y1))
+        self.allsky_ystop = np.int(np.ceil(allsky_y2))
         
         self.newcube_xlen = (self.allsky_xstop - self.allsky_xstart)
         self.newcube_ylen = (self.allsky_ystop - self.allsky_ystart)
