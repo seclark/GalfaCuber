@@ -58,6 +58,14 @@ class NewCube():
         self.newcube_xlen = (self.allsky_xstop - self.allsky_xstart)
         self.newcube_ylen = (self.allsky_ystop - self.allsky_ystart)
         print("new cube xlen, ylen = {}, {}".format(self.newcube_xlen, self.newcube_ylen))
+        self.newcube_centerRA, self.newcube_centerDEC = cutouts.xy_to_radec(self.allsky_xstart + self.newcube_xlen/2.0, self.allsky_ystart + self.newcube_ylen/2.0, allsky_w)
+        
+        # define new 2D wcs object
+        self.new_cube_flat_wcs = wcs.WCS(naxis=2)
+        self.new_cube_flat_wcs.wcs.crpix = [self.newcube_xlen/2.0, self.newcube_ylen/2.0]
+        self.new_cube_flat_wcs.wcs.cdelt = np.array([-0.0166667, 0.0166667]) # assume format is cdelt1, cdelt2 (ra, dec)
+        self.new_cube_flat_wcs.wcs.crval = [self.newcube_centerRA, self.newcube_centerDEC]
+        self.new_cube_flat_wcs.wcs.ctype = ["RA      ", "DEC     "]
         
         # All the existing data cubes
         all_center_DECs = [2.35, 10.35, 18.35, 26.35, 34.35]
@@ -162,15 +170,6 @@ class NewCube():
         print("DEC, RA", self.max_len_DEC, self.max_len_RA)
         self.RHT_XYT_cube = np.zeros((self.nthets, self.max_len_DEC, self.max_len_RA), np.float_)
         
-        large_cube_wcs = wcs.WCS(naxis=2)
-
-        # Set up an "Airy's zenithal" projection
-        # Vector properties may be set with Python lists, or Numpy arrays
-        large_cube_wcs.wcs.crpix = [self.max_len_DEC/2.0, self.max_len_RA/2.0]
-        large_cube_wcs.wcs.cdelt = np.array([0.0166667, -0.0166667])
-        large_cube_wcs.wcs.crval = [0, -90]
-        large_cube_wcs.wcs.ctype = ["RA      ", "DEC     "]
-        
         for ra, dec in self.all_RADEC_str_pairs:
             # load small xyt cube
             ppv_cube = galfa_cuber.Cube(RA=ra, DEC=dec)
@@ -180,7 +179,7 @@ class NewCube():
             xyt_cube_wcs = cutouts.make_wcs(ppv_cube.xyt_fn)
             print(ra, dec)
             
-            # find start and end points in small cube
+            # find start and end pixels in small cube
             xmin, ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, xyt_cube_wcs)
             xmax, ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, xyt_cube_wcs)
             
@@ -194,9 +193,9 @@ class NewCube():
             #large_cube_wcs.wcs.naxis1 = self.max_len_RA
             #large_cube_wcs.wcs.naxis2 = self.max_len_DEC
             
-            
-            new_xmin, new_ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, large_cube_wcs)
-            new_xmax, new_ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, large_cube_wcs)
+            # find start and end pixels in new cube
+            new_xmin, new_ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, self.new_cube_flat_wcs)
+            new_xmax, new_ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, self.new_cube_flat_wcs)
             new_xmin = np.ceil(new_xmin)
             new_xmax = np.floor(new_xmax)
             new_ymin = np.floor(new_ymin)
