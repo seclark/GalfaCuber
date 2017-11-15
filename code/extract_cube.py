@@ -145,6 +145,8 @@ class NewCube():
             
             print("new x y coords: ", new_xmin, new_ymin, new_xmax, new_ymax)
             print("insert x y coords: ", xmin, ymin, xmax, ymax)
+            print("new x len:", new_xmin-new_xmax + 1)
+            print("insert x len:", xmin-xmax + 1)
             self.RHT_XYT_cube[:, new_ymin:new_ymax, new_xmax:new_xmin] = rht_xyt_smallcube[:, ymin:ymax, xmax:xmin]
 
 cc = NewCube(RA_min=50., RA_max=53, DEC_min=11, DEC_max=18)
