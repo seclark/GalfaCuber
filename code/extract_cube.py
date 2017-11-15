@@ -94,6 +94,9 @@ class NewCube():
             print(self.max_len_RA)
             print(self.max_len_DEC)
             
+        self.max_len_RA = np.int(self.max_len_RA)
+        self.max_len_DEC = np.int(self.max_len_DEC)
+            
         for d in self.my_center_DECs:
             dec = "{:05.2f}".format(d)
             ppv_cube = galfa_cuber.Cube(RA="{:06.2f}".format(self.my_center_RAs[0]), DEC=dec)
