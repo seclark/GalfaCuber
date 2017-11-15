@@ -100,6 +100,7 @@ class NewCube():
         self.max_len_DEC = (self.naxis2 * self.n_cubes_dec) - ((self.n_cubes_dec - 1) * 16)
         print(self.max_len_RA)
     
+        """
         self.new_RA_min = copy.copy(self.RA_min)
         self.new_RA_max = copy.copy(self.RA_max)
         # RA incr to left? yes- should round min up, max down to recover max area 
@@ -160,6 +161,7 @@ class NewCube():
             
         self.max_len_RA = np.int(self.max_len_RA)
         self.max_len_DEC = np.int(self.max_len_DEC)
+        """
 
     def make_RHT_XYT_cube(self, rht_velstart="0974", rht_velstop="0978"):
         """
