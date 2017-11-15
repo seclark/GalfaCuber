@@ -3,6 +3,7 @@ import numpy as np
 from astropy.io import fits
 import itertools
 import re
+import copy
 
 import sys 
 sys.path.insert(0, '../../FITSHandling/code')
