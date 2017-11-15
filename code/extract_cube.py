@@ -131,7 +131,7 @@ class NewCube():
         for ra, dec in self.all_RADEC_str_pairs:
             # load small xyt cube
             ppv_cube = galfa_cuber.Cube(RA=ra, DEC=dec)
-            ppv_cube.load_RHT_XYT_cube(rht_velstart=rht_velstart, rht_velstop=rht_velstart)
+            ppv_cube.load_RHT_XYT_cube(rht_velstart=rht_velstart, rht_velstop=rht_velstop)
             rht_xyt_smallcube = ppv_cube.get_RHT_XYT_cube(ashdulist=False)
             
             xyt_cube_wcs = cutouts.make_wcs(ppv_cube.xyt_fn)
