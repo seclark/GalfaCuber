@@ -116,7 +116,7 @@ class NewCube():
             print(self.max_len_RA)
             print(self.max_len_DEC)
 
-    def make_RHT_XYT_cube(rht_velstart="0974", rht_velstop="0978"):
+    def make_RHT_XYT_cube(self, rht_velstart="0974", rht_velstop="0978"):
         """
         create new Rtheta cube
         """
