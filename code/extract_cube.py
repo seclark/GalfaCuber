@@ -100,68 +100,6 @@ class NewCube():
         self.max_len_DEC = (self.naxis2 * self.n_cubes_dec) - ((self.n_cubes_dec - 1) * 16)
         print(self.max_len_RA)
     
-        """
-        self.new_RA_min = copy.copy(self.RA_min)
-        self.new_RA_max = copy.copy(self.RA_max)
-        # RA incr to left? yes- should round min up, max down to recover max area 
-        # must step first through dec, then ra -- can't do them at the same time because will double-count
-        for r in self.my_center_RAs:
-            ra = "{:06.2f}".format(r)
-            ppv_cube = galfa_cuber.Cube(RA=ra, DEC="{:05.2f}".format(self.my_center_DECs[0]))
-            
-            ppv_cube_wcs = cutouts.make_wcs(ppv_cube.ppv_cube_fn)
-            print(ra, dec)
-            
-            xmin, ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, ppv_cube_wcs)
-            xmax, ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, ppv_cube_wcs)
-            
-            xmin = min(np.ceil(xmin), self.naxis1)
-            xmax = max(np.floor(xmax), 0)
-            
-            self.max_len_RA -= (self.naxis1 - (xmin - xmax))    
-            
-            new_ra_min, new_dec_min = cutouts.xy_to_radec(xmin, ymin, ppv_cube_wcs)
-            new_ra_max, new_dec_max = cutouts.xy_to_radec(xmax, ymax, ppv_cube_wcs)
-            
-            if new_ra_min > self.new_RA_min:
-                self.new_RA_min = new_ra_min
-                print("setting new RA min = {}".format(new_ra_min))
-            if new_ra_max < self.new_RA_max:
-                self.new_RA_max = new_ra_max
-                print("setting new RA max = {}".format(new_ra_max))
-            
-            print("xmin, xmax, xmin-xmax = ", xmin, xmax, xmin-xmax)
-                
-            print("xmin, ymin", xmin, ymin)
-            print("xmax, ymax", xmax, ymax)
-            print(self.max_len_RA)
-            print(self.max_len_DEC)
-            
-        for d in self.my_center_DECs:
-            dec = "{:05.2f}".format(d)
-            ppv_cube = galfa_cuber.Cube(RA="{:06.2f}".format(self.my_center_RAs[0]), DEC=dec)
-            
-            ppv_cube_wcs = cutouts.make_wcs(ppv_cube.ppv_cube_fn)
-            print(ra, dec)
-            
-            xmin, ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, ppv_cube_wcs)
-            xmax, ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, ppv_cube_wcs)
-            
-            ymin = max(np.floor(ymin), 0)
-            ymax = min(np.ceil(ymax), self.naxis2)
-            
-            self.max_len_DEC -= (self.naxis2 - (ymax - ymin))
-            
-            print("xmin, xmax, xmin-xmax = ", xmin, xmax, xmin-xmax)
-                
-            print("xmin, ymin", xmin, ymin)
-            print("xmax, ymax", xmax, ymax)
-            print(self.max_len_RA)
-            print(self.max_len_DEC)
-            
-        self.max_len_RA = np.int(self.max_len_RA)
-        self.max_len_DEC = np.int(self.max_len_DEC)
-        """
 
     def make_RHT_XYT_cube(self, rht_velstart="0974", rht_velstop="0978"):
         """
