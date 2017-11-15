@@ -183,10 +183,10 @@ class NewCube():
             xmin, ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, xyt_cube_wcs)
             xmax, ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, xyt_cube_wcs)
             
-            xmin = min(np.ceil(xmin), self.naxis1)
-            xmax = max(np.floor(xmax), 0)
-            ymin = max(np.floor(ymin), 0)
-            ymax = min(np.ceil(ymax), self.naxis2)
+            xmin = np.int(min(np.ceil(xmin), self.naxis1))
+            xmax = np.int(max(np.floor(xmax), 0))
+            ymin = np.int(max(np.floor(ymin), 0))
+            ymax = np.int(min(np.ceil(ymax), self.naxis2))
             
             # find start and end points in large new cube
             #large_cube_wcs = copy.copy(xyt_cube_wcs)
