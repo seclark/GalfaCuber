@@ -194,8 +194,8 @@ class NewCube():
             #large_cube_wcs.wcs.naxis2 = self.max_len_DEC
             
             # find start and end pixels in new cube
-            ramin, decmin = cutouts.radec_to_xy(xmin, ymin, xyt_cube_wcs)
-            ramax, decmax = cutouts.radec_to_xy(xmax, ymax, xyt_cube_wcs)
+            ramin, decmin = cutouts.xy_to_radec(xmin, ymin, xyt_cube_wcs)
+            ramax, decmax = cutouts.xy_to_radec(xmax, ymax, xyt_cube_wcs)
             new_xmin, new_ymin = cutouts.radec_to_xy(ramin, decmin, self.new_cube_flat_wcs)
             new_xmax, new_ymax = cutouts.radec_to_xy(ramax, decmax, self.new_cube_flat_wcs)
             new_xmin = np.int(np.ceil(new_xmin))
