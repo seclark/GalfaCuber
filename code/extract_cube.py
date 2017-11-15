@@ -115,38 +115,42 @@ class NewCube():
             print("xmax, ymax", xmax, ymax)
             print(self.max_len_RA)
             print(self.max_len_DEC)
-            
+
+    def make_RHT_XYT_cube(rht_velstart="0974", rht_velstop="0978"):
         """
+        create new Rtheta cube
+        """
+        
+        self.nthets = 165
+        self.RHT_XYT_cube = np.zeros((self.nthets, self.max_len_DEC, self.max_len_RA), np.float_)
+        
         for ra, dec in self.all_RADEC_str_pairs:
+            # load small xyt cube
             ppv_cube = galfa_cuber.Cube(RA=ra, DEC=dec)
-            ppv_cube_wcs = cutouts.make_wcs(ppv_cube.ppv_cube_fn)
+            ppv_cube.load_RHT_XYT_cube(rht_velstart=rht_velstart, rht_velstop=rht_velstart)
+            rht_xyt_smallcube = ppv_cube.get_RHT_XYT_cube(ashdulist=False)
+            
+            xyt_cube_wcs = cutouts.make_wcs(ppv_cube.xyt_fn)
             print(ra, dec)
             
-            xmin, ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, ppv_cube_wcs)
-            xmax, ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, ppv_cube_wcs)
+            # find start and end points in small cube
+            xmin, ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, xyt_cube_wcs)
+            xmax, ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, xyt_cube_wcs)
             
             xmin = min(np.ceil(xmin), self.naxis1)
             xmax = max(np.floor(xmax), 0)
             ymin = max(np.floor(ymin), 0)
             ymax = min(np.ceil(ymax), self.naxis2)
             
-            #if xmin > 0 and xmin < self.naxis1:
-            #    print("xmin, naxis1", xmin, self.naxis1)
-            #    print(np.round(self.naxis1 - xmin))
-            #    self.max_len_RA -= np.round(self.naxis1 - xmin)
+            # find start and end points in large new cube
+            large_cube_wcs = copy.copy(xyt_cube_wcs)
+            large_cube_wcs.wcs.naxis1 = self.max_len_RA
+            large_cube_wcs.wcs.naxis2 = self.max_len_DEC
+            new_xmin, new_ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, large_cube_wcs)
+            new_xmax, new_ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, large_cube_wcs)
             
-            self.max_len_RA -= (self.naxis1 - (xmin - xmax))    
-            self.max_len_DEC -= (self.naxis2 - (ymax - ymin))
-            
-            print("xmin, xmax, xmin-xmax = ", xmin, xmax, xmin-xmax)
-            print("ymin, ymax, ymax-ymin = ", ymin, ymax, ymax-ymin)
-                
-            print("xmin, ymin", xmin, ymin)
-            print("xmax, ymax", xmax, ymax)
-            print(self.max_len_RA)
-            print(self.max_len_DEC)
-         """
-        
+            print("new x y coords: ", new_xmin, new_ymin, new_xmax, new_ymax)
+            self.RHT_XYT_cube[:, new_ymin:new_ymax, new_xmax:new_xmin] = rht_xyt_smallcube[:, ymin:ymax, xmax:xmin]
 
 cc = NewCube(RA_min=50., RA_max=154, DEC_min=11, DEC_max=14)
 print(cc.all_RADEC_strs)
