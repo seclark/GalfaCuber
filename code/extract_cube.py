@@ -148,11 +148,16 @@ class NewCube():
             large_cube_wcs.wcs.naxis2 = self.max_len_DEC
             new_xmin, new_ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, large_cube_wcs)
             new_xmax, new_ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, large_cube_wcs)
+            new_xmin = np.ceil(new_xmin)
+            new_xmax = np.floor(new_xmax)
+            new_ymin = np.floor(new_ymin)
+            new_ymax = np.ceil(new_ymax)
             
             print("new x y coords: ", new_xmin, new_ymin, new_xmax, new_ymax)
             self.RHT_XYT_cube[:, new_ymin:new_ymax, new_xmax:new_xmin] = rht_xyt_smallcube[:, ymin:ymax, xmax:xmin]
 
 cc = NewCube(RA_min=50., RA_max=154, DEC_min=11, DEC_max=14)
+cc.make_RHT_XYT_cube()
 print(cc.all_RADEC_strs)
 
 gg=galfa_cuber.Cube(RA="004.00", DEC="02.35")
