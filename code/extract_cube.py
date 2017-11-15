@@ -122,6 +122,7 @@ class NewCube():
         """
         
         self.nthets = 165
+        print("DEC, RA", self.max_len_DEC, self.max_len_RA)
         self.RHT_XYT_cube = np.zeros((self.nthets, self.max_len_DEC, self.max_len_RA), np.float_)
         
         for ra, dec in self.all_RADEC_str_pairs:
