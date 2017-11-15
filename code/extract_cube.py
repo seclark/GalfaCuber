@@ -39,6 +39,26 @@ class NewCube():
         
         # Define dimensions of new cube. 
         
+        # get allsky RHT data header
+        self.path_to_rht_thetaslices = "/disks/jansky/a/users/goldston/susan/Wide_maps/single_theta_maps/"
+        self.galfa_allsky_hdr = fits.getheader(self.path_to_rht_thetaslices+"S0974_0978/intrht_S0974_0978.fits")
+    
+        
+        # translate cube corners to allsky x, y
+        allsky_w = cutouts.make_wcs(self.galfa_allsky_hdr)
+        allsky_x1, allsky_y1 = cutouts.radec_to_xy(self.RA_max, self.DEC_min, allsky_w) # LLH corner
+        allsky_x2, allsky_y2 = cutouts.radec_to_xy(self.RA_min, self.DEC_max, allsky_w) # URH corner
+
+        # ROUND to integer x, y. Necessary because allsky header does not quite match up. Valid per Yong's check.
+        self.allsky_xstart = np.int(np.round(allsky_x1))
+        self.allsky_xstop = np.int(np.round(allsky_x2))
+        self.allsky_ystart = np.int(np.round(allsky_y1))
+        self.allsky_ystop = np.int(np.round(allsky_y2))
+        
+        self.newcube_xlen = (self.allsky_xstop - self.allsky_xstart)
+        self.newcube_ylen = (self.allsky_ystop - self.allsky_ystart)
+        print("new cube xlen, ylen = {}, {}".format(self.newcube_xlen, self.newcube_ylen))
+        
         # All the existing data cubes
         all_center_DECs = [2.35, 10.35, 18.35, 26.35, 34.35]
         all_center_RAs = [ra for ra in np.arange(4, 360, 8)]
@@ -142,14 +162,14 @@ class NewCube():
         print("DEC, RA", self.max_len_DEC, self.max_len_RA)
         self.RHT_XYT_cube = np.zeros((self.nthets, self.max_len_DEC, self.max_len_RA), np.float_)
         
-        w = wcs.WCS(naxis=2)
+        large_cube_wcs = wcs.WCS(naxis=2)
 
         # Set up an "Airy's zenithal" projection
         # Vector properties may be set with Python lists, or Numpy arrays
-        w.wcs.crpix = [self.max_len_DEC/2.0, self.max_len_RA/2.0]
-        w.wcs.cdelt = numpy.array([0.0166667, -0.0166667])
-        w.wcs.crval = [0, -90]
-        w.wcs.ctype = ["RA      ", "DEC     "]
+        large_cube_wcs.wcs.crpix = [self.max_len_DEC/2.0, self.max_len_RA/2.0]
+        large_cube_wcs.wcs.cdelt = np.array([0.0166667, -0.0166667])
+        large_cube_wcs.wcs.crval = [0, -90]
+        large_cube_wcs.wcs.ctype = ["RA      ", "DEC     "]
         
         for ra, dec in self.all_RADEC_str_pairs:
             # load small xyt cube
