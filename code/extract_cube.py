@@ -107,7 +107,7 @@ class NewCube():
         """
         
         self.nthets = 165
-        print("DEC, RA", self.max_len_DEC, self.max_len_RA)
+        #print("DEC, RA", self.max_len_DEC, self.max_len_RA)
         self.RHT_XYT_cube = np.zeros((self.nthets, self.newcube_ylen, self.newcube_xlen), np.float_)
         
         for ra, dec in self.all_RADEC_str_pairs:
@@ -138,10 +138,10 @@ class NewCube():
             ramax, decmax = cutouts.xy_to_radec(xmax, ymax, xyt_cube_wcs)
             new_xmin, new_ymin = cutouts.radec_to_xy(ramin, decmin, self.new_cube_flat_wcs)
             new_xmax, new_ymax = cutouts.radec_to_xy(ramax, decmax, self.new_cube_flat_wcs)
-            new_xmin = np.int(min(np.ceil(new_xmin+1), self.newcube_xlen+1))
+            new_xmin = np.int(min(np.ceil(new_xmin), self.newcube_xlen+1))
             new_xmax = np.int(max(np.floor(new_xmax), 0))
             new_ymin = np.int(max(np.floor(new_ymin), 0))
-            new_ymax = np.int(min(np.ceil(new_ymax+1), self.newcube_ylen+1))
+            new_ymax = np.int(min(np.ceil(new_ymax), self.newcube_ylen+1))
             
             print("new x y coords: ", new_xmin, new_ymin, new_xmax, new_ymax)
             print("insert x y coords: ", xmin, ymin, xmax, ymax)
@@ -152,7 +152,7 @@ class NewCube():
             print(rht_xyt_smallcube.shape)
             self.RHT_XYT_cube[:, new_ymin:new_ymax+1, new_xmax:new_xmin+1] = rht_xyt_smallcube[:, ymin:ymax+1, xmax:xmin+1]
 
-cc = NewCube(RA_min=50., RA_max=53, DEC_min=11, DEC_max=18)
+cc = NewCube(RA_min=50., RA_max=53, DEC_min=2.35-1./60, DEC_max=2.35+1./60)
 cc.make_RHT_XYT_cube()
 print(cc.all_RADEC_strs)
 
