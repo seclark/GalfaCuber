@@ -240,7 +240,7 @@ class Cube():
             self.rht_U_cube = fits.getdata(self.fn_U)
             self.hdulist_U = fits.open(self.fn_U)
         
-    def load_RHT_XYT_cube(self, RA="180.00", DEC="02.35", rht_velstart="0974", rht_velstop="0978"):
+    def load_RHT_XYT_cube(self, rht_velstart="0974", rht_velstop="0978"):
         """
         Load XYT cube from file
         """
@@ -249,7 +249,7 @@ class Cube():
         rht_velstr = "S"+rht_velstart+"_"+rht_velstop
             
         self.XYT_root = "/disks/jansky/a/users/goldston/susan/RHT_RC1/Rtheta_cubes/"
-        self.xyt_fn = self.XYT_root + rht_velstr + "/GALFA-HI_RHT_spect_v"+self.velstart+"_"+self.velstop+"_RA+DEC_"+self.RA+"+"+self.DEC+".fits"      
+        self.xyt_fn = self.XYT_root + rht_velstr + "/GALFA-HI_RHT_spect_v"+self.velstart+"_"+self.velstop+"_RA+DEC_"+self.centerRA+"+"+self.centerDEC+".fits"      
         
         if os.path.isfile(self.xyt_fn):
             self.rht_data_cube = fits.getdata(self.xyt_fn)
