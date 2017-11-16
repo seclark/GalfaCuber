@@ -25,8 +25,8 @@ class NewCube():
         if any(coord is None for coord in [RA_min, RA_max, DEC_min, DEC_max]):
             print("Please specify all coordinates.")
             
-        self.RA_min = np.float(RA_min)
-        self.RA_max = np.float(RA_max)
+        self.RA_min_orig = np.float(RA_min)
+        self.RA_max_orig = np.float(RA_max)
         self.DEC_min = np.float(DEC_min)
         self.DEC_max = np.float(DEC_max)
         print(self.DEC_min, self.DEC_max)
@@ -44,8 +44,9 @@ class NewCube():
         self.galfa_allsky_hdr = fits.getheader(self.path_to_rht_thetaslices+"S0974_0978/intrht_S0974_0978.fits")
                 
         startpix_ras = np.linspace(0, 360, 21599)
-        self.RA_min_round = startpix_ras[np.argmin(np.abs(startpix_ras - self.RA_min))]
-        print("RA min orig = {}, rounded = {}".format(self.RA_min, self.RA_min_round))
+        self.RA_min = startpix_ras[np.argmin(np.abs(startpix_ras - self.RA_min_orig))]
+        self.RA_max = startpix_ras[np.argmin(np.abs(startpix_ras - self.RA_max_orig))]
+        print("RA min orig = {}, rounded = {}".format(self.RA_min_orig, self.RA_min))
         
         # translate cube corners to allsky x, y
         allsky_w = cutouts.make_wcs(self.galfa_allsky_hdr)
@@ -61,7 +62,7 @@ class NewCube():
         self.newcube_xlen = (self.allsky_xstop - self.allsky_xstart) +1
         self.newcube_ylen = (self.allsky_ystop - self.allsky_ystart) + 1
         print("new cube xlen, ylen = {}, {}".format(self.newcube_xlen, self.newcube_ylen))
-        #self.newcube_centerRA, self.newcube_centerDEC = cutouts.xy_to_radec(self.allsky_xstart + self.newcube_xlen/2.0, self.allsky_ystart + self.newcube_ylen/2.0 + 1, allsky_w)
+        self.newcube_centerRA, self.newcube_centerDEC = cutouts.xy_to_radec(self.allsky_xstart + self.newcube_xlen/2.0, self.allsky_ystart + self.newcube_ylen/2.0 + 1, allsky_w)
         
         # define new 2D wcs object
         self.new_cube_flat_wcs = wcs.WCS(naxis=2)
