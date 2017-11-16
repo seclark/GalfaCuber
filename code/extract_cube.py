@@ -32,7 +32,7 @@ class NewCube():
         print(self.DEC_min, self.DEC_max)
         
         # create a flag for wrapped RA. Deal with this later.
-        if self.RA_max < self.RA_min:
+        if self.RA_max_orig < self.RA_min_orig:
             self.wrapRA = True
         else:
             self.wrapRA = False
