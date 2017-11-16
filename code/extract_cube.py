@@ -68,8 +68,8 @@ class NewCube():
         self.new_cube_flat_wcs.wcs.ctype = ["RA      ", "DEC     "]
         
         print("old ra max = {}, ra min = {}, dec max = {}, dec min = {}".format(self.RA_max, self.RA_min, self.DEC_max, self.DEC_min))
-        self.RA_max, self.DEC_min = cutouts.xy_to_radec(0, self.newcube_xlen, self.new_cube_flat_wcs)
-        self.RA_min, self.DEC_max = cutouts.xy_to_radec(0, self.newcube_ylen, self.new_cube_flat_wcs)
+        self.RA_max, self.DEC_min = cutouts.xy_to_radec(0, 0, self.new_cube_flat_wcs)
+        self.RA_min, self.DEC_max = cutouts.xy_to_radec(self.newcube_xlen, self.newcube_ylen, self.new_cube_flat_wcs)
         print("new ra max = {}, ra min = {}, dec max = {}, dec min = {}".format(self.RA_max, self.RA_min, self.DEC_max, self.DEC_min))
         
         # All the existing data cubes
