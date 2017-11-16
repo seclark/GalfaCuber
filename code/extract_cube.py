@@ -67,6 +67,11 @@ class NewCube():
         self.new_cube_flat_wcs.wcs.crval = [self.newcube_centerRA, self.newcube_centerDEC]
         self.new_cube_flat_wcs.wcs.ctype = ["RA      ", "DEC     "]
         
+        print("old ra max = {}, ra min = {}, dec max = {}, dec min = {}".format(self.RA_max, self.RA_min, self.DEC_max, self.DEC_min))
+        self.RA_max, self.DEC_min = cutouts.xy_to_radec(0, self.newcube_xlen)
+        self.RA_min, self.DEC_max = cutouts.xy_to_radec(0, self.newcube_ylen)
+        print("new ra max = {}, ra min = {}, dec max = {}, dec min = {}".format(self.RA_max, self.RA_min, self.DEC_max, self.DEC_min))
+        
         # All the existing data cubes
         all_center_DECs = [2.35, 10.35, 18.35, 26.35, 34.35]
         all_center_RAs = [ra for ra in np.arange(4, 360, 8)]
@@ -89,16 +94,16 @@ class NewCube():
         
         self.n_cubes_dec = len(self.my_center_DECs)
         self.n_cubes_ra = len(self.my_center_RAs)
-        print(self.n_cubes_dec, self.n_cubes_ra)
-        print(self.my_center_DECs)
-        print(self.my_center_RAs)
+        print("n cubes des = {}, n cubes ra = {}".format(self.n_cubes_dec, self.n_cubes_ra))
+        #print(self.my_center_DECs)
+        #print(self.my_center_RAs)
         
         # number of overlap segments -- 32 pixels wide each -- is 1 less than number of cubes in each dimension. Subtract 16 = half overlap region
         self.naxis1 = 512
         self.naxis2 = 512
-        self.max_len_RA = (self.naxis1 * self.n_cubes_ra) - ((self.n_cubes_ra - 1) * 16)
-        self.max_len_DEC = (self.naxis2 * self.n_cubes_dec) - ((self.n_cubes_dec - 1) * 16)
-        print(self.max_len_RA)
+        #self.max_len_RA = (self.naxis1 * self.n_cubes_ra) - ((self.n_cubes_ra - 1) * 16)
+        #self.max_len_DEC = (self.naxis2 * self.n_cubes_dec) - ((self.n_cubes_dec - 1) * 16)
+        #print(self.max_len_RA)
     
 
     def make_RHT_XYT_cube(self, rht_velstart="0974", rht_velstop="0978"):
@@ -107,9 +112,9 @@ class NewCube():
         """
         
         self.nthets = 165
-        #print("DEC, RA", self.max_len_DEC, self.max_len_RA)
         self.RHT_XYT_cube = np.zeros((self.nthets, self.newcube_ylen, self.newcube_xlen), np.float_)
         
+        # strep through all necessary constituent cubes
         for ra, dec in self.all_RADEC_str_pairs:
             # load small xyt cube
             ppv_cube = galfa_cuber.Cube(RA=ra, DEC=dec)
