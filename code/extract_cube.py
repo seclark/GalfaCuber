@@ -43,7 +43,7 @@ class NewCube():
         self.path_to_rht_thetaslices = "/disks/jansky/a/users/goldston/susan/Wide_maps/single_theta_maps/"
         self.galfa_allsky_hdr = fits.getheader(self.path_to_rht_thetaslices+"S0974_0978/intrht_S0974_0978.fits")
                 
-        startpix_ras = np.arange((1/180., 360, 0.0166667)[::-1] #np.linspace(0, 360, 21599)
+        startpix_ras = np.arange(1/180., 360, 0.0166667)[::-1] #np.linspace(0, 360, 21599)
         self.RA_min = startpix_ras[np.argmin(np.abs(startpix_ras - self.RA_min_orig))]
         self.RA_max = startpix_ras[np.argmin(np.abs(startpix_ras - self.RA_max_orig))]
         print("RA min orig = {}, rounded = {}".format(self.RA_min_orig, self.RA_min))
