@@ -62,7 +62,7 @@ class NewCube():
         
         # define new 2D wcs object
         self.new_cube_flat_wcs = wcs.WCS(naxis=2)
-        self.new_cube_flat_wcs.wcs.crpix = [self.newcube_xlen/2.0, self.newcube_ylen/2.0]
+        self.new_cube_flat_wcs.wcs.crpix = [self.newcube_xlen/2.0 + 1, self.newcube_ylen/2.0 + 1]
         self.new_cube_flat_wcs.wcs.cdelt = np.array([-0.0166667, 0.0166667]) # assume format is cdelt1, cdelt2 (ra, dec)
         self.new_cube_flat_wcs.wcs.crval = [self.newcube_centerRA, self.newcube_centerDEC]
         self.new_cube_flat_wcs.wcs.ctype = ["RA      ", "DEC     "]
