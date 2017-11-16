@@ -72,6 +72,9 @@ class NewCube():
         self.RA_min, self.DEC_max = cutouts.xy_to_radec(self.newcube_xlen, self.newcube_ylen, self.new_cube_flat_wcs)
         print("new ra max = {}, ra min = {}, dec max = {}, dec min = {}".format(self.RA_max, self.RA_min, self.DEC_max, self.DEC_min))
         
+        testx, testy = cutouts.radec_to_xy(52.0, 2.35, self.new_cube_flat_wcs)
+        print("COORD TEST: 52, 2.35 are at x={}, y={}".format(testx, testy))
+        
         # All the existing data cubes
         all_center_DECs = [2.35, 10.35, 18.35, 26.35, 34.35]
         all_center_RAs = [ra for ra in np.arange(4, 360, 8)]
