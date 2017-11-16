@@ -44,6 +44,12 @@ class NewCube():
         self.galfa_allsky_hdr = fits.getheader(self.path_to_rht_thetaslices+"S0974_0978/intrht_S0974_0978.fits")
     
         
+                mn = min(abs(ra0-ra), x)
+                
+        startpix_ras = np.linspace(0, 360, 21599)
+        self.RA_min_round = startpix_ras[startpix_ras.index(min(np.abs(startpix_ras - self.RA_min)))]
+        print("RA min orig = {}, rounded = {}".format(self.RA_min, self.RA_min_round))
+        
         # translate cube corners to allsky x, y
         allsky_w = cutouts.make_wcs(self.galfa_allsky_hdr)
         allsky_x1, allsky_y1 = cutouts.radec_to_xy(self.RA_max, self.DEC_min, allsky_w) # LLH corner
@@ -58,7 +64,7 @@ class NewCube():
         self.newcube_xlen = (self.allsky_xstop - self.allsky_xstart) +1
         self.newcube_ylen = (self.allsky_ystop - self.allsky_ystart) + 1
         print("new cube xlen, ylen = {}, {}".format(self.newcube_xlen, self.newcube_ylen))
-        self.newcube_centerRA, self.newcube_centerDEC = cutouts.xy_to_radec(self.allsky_xstart + self.newcube_xlen/2.0 +0.5, self.allsky_ystart + self.newcube_ylen/2.0 + 1, allsky_w)
+        #self.newcube_centerRA, self.newcube_centerDEC = cutouts.xy_to_radec(self.allsky_xstart + self.newcube_xlen/2.0, self.allsky_ystart + self.newcube_ylen/2.0 + 1, allsky_w)
         
         # define new 2D wcs object
         self.new_cube_flat_wcs = wcs.WCS(naxis=2)
