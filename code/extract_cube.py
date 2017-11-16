@@ -44,7 +44,7 @@ class NewCube():
         self.galfa_allsky_hdr = fits.getheader(self.path_to_rht_thetaslices+"S0974_0978/intrht_S0974_0978.fits")
                 
         startpix_ras = np.linspace(0, 360, 21599)
-        self.RA_min_round = startpix_ras[startpix_ras.index(min(np.abs(startpix_ras - self.RA_min)))]
+        self.RA_min_round = startpix_ras[np.argmin(np.abs(startpix_ras - self.RA_min))]
         print("RA min orig = {}, rounded = {}".format(self.RA_min, self.RA_min_round))
         
         # translate cube corners to allsky x, y
