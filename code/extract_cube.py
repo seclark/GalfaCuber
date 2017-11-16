@@ -131,6 +131,9 @@ class NewCube():
             xyt_cube_wcs = cutouts.make_wcs(ppv_cube.xyt_fn)
             print(ra, dec)
             
+            testx, testy = cutouts.radec_to_xy(52.0, 2.35, xyt_cube_wcs)
+            print("COORD TEST: 52, 2.35 are at x={}, y={}".format(testx, testy))
+            
             # find start and end pixels in small cube
             xmin, ymin = cutouts.radec_to_xy(self.RA_min, self.DEC_min, xyt_cube_wcs)
             xmax, ymax = cutouts.radec_to_xy(self.RA_max, self.DEC_max, xyt_cube_wcs)
