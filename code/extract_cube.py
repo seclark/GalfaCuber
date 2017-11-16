@@ -58,7 +58,7 @@ class NewCube():
         self.newcube_xlen = (self.allsky_xstop - self.allsky_xstart) +1
         self.newcube_ylen = (self.allsky_ystop - self.allsky_ystart) + 1
         print("new cube xlen, ylen = {}, {}".format(self.newcube_xlen, self.newcube_ylen))
-        self.newcube_centerRA, self.newcube_centerDEC = cutouts.xy_to_radec(self.allsky_xstart + self.newcube_xlen/2.0, self.allsky_ystart + self.newcube_ylen/2.0, allsky_w)
+        self.newcube_centerRA, self.newcube_centerDEC = cutouts.xy_to_radec(self.allsky_xstart + self.newcube_xlen/2.0 +1, self.allsky_ystart + self.newcube_ylen/2.0 + 1, allsky_w)
         
         # define new 2D wcs object
         self.new_cube_flat_wcs = wcs.WCS(naxis=2)
@@ -157,7 +157,7 @@ class NewCube():
             print(rht_xyt_smallcube.shape)
             self.RHT_XYT_cube[:, new_ymin:new_ymax+1, new_xmax:new_xmin+1] = rht_xyt_smallcube[:, ymin:ymax+1, xmax:xmin+1]
 
-cc = NewCube(RA_min=50., RA_max=85., DEC_min=2.35-1./60, DEC_max=2.35+1./60)
+cc = NewCube(RA_min=50., RA_max=55., DEC_min=2.35-1./60, DEC_max=2.35+1./60)
 cc.make_RHT_XYT_cube()
 print(cc.all_RADEC_strs)
 
