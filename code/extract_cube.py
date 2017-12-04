@@ -27,8 +27,8 @@ class NewCube():
             
         self.RA_min_orig = np.float(RA_min)
         self.RA_max_orig = np.float(RA_max)
-        self.DEC_min = np.float(DEC_min)
-        self.DEC_max = np.float(DEC_max)
+        self.DEC_min_orig = np.float(DEC_min)
+        self.DEC_max_orig = np.float(DEC_max)
         print(self.DEC_min, self.DEC_max)
         
         # create a flag for wrapped RA. Deal with this later.
