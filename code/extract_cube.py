@@ -42,8 +42,19 @@ class NewCube():
         # get allsky RHT data header
         self.path_to_rht_thetaslices = "/disks/jansky/a/users/goldston/susan/Wide_maps/single_theta_maps/"
         self.galfa_allsky_hdr = fits.getheader(self.path_to_rht_thetaslices+"S0974_0978/intrht_S0974_0978.fits")
+        
+        #startpix_ras = [(10800.5 - pix)*0.0166667 + 180.0 for pix in np.arange(0, 21600)]
                 
-        startpix_ras = np.arange(1/180., 360, 0.0166667)[::-1] #np.linspace(0, 360, 21599)
+        #startpix_ras = np.arange(1/180., 360, 0.0166667)[::-1] #np.linspace(0, 360, 21599)
+        
+        self.allsky_crval1 = self.galfa_allsky_hdr['CRVAL1']
+        self.allsky_crval2 = self.galfa_allsky_hdr['CRVAL2']
+        self.allsky_cdelt1 = self.galfa_allsky_hdr['CDELT1']
+        self.allsky_cdelt2 = self.galfa_allsky_hdr['CDELT2']
+        
+        startpix_ras =  self.allsky_crval1 +  self.allsky_cdelt1 * (np.arange(self.allsky_naxis1) + 1 -  self.allsky_crpix1)
+        print("first startpixra", startpic_ras[0])
+        
         self.RA_min = startpix_ras[np.argmin(np.abs(startpix_ras - self.RA_min_orig))]
         self.RA_max = startpix_ras[np.argmin(np.abs(startpix_ras - self.RA_max_orig))]
         print("RA min orig = {}, rounded = {}".format(self.RA_min_orig, self.RA_min))
