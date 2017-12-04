@@ -57,12 +57,18 @@ class NewCube():
         self.allsky_crpix2 = self.galfa_allsky_hdr['CRPIX2']
         
         startpix_ras =  self.allsky_crval1 +  self.allsky_cdelt1 * (np.arange(self.allsky_naxis1) + 1 -  self.allsky_crpix1)
+        startpix_decs =  self.allsky_crval2 +  self.allsky_cdelt2 * (np.arange(self.allsky_naxis2) + 1 -  self.allsky_crpix2)
         print("first startpixra", startpix_ras[0])
+        print("first startpixdec", startpix_decs[0])
         
-        # redefine RA min and max s.t. they are integer pixels.
+        # redefine RA, DEC min and max s.t. they are integer pixels.
         self.RA_min = startpix_ras[np.argmin(np.abs(startpix_ras - self.RA_min_orig))]
         self.RA_max = startpix_ras[np.argmin(np.abs(startpix_ras - self.RA_max_orig))]
         print("RA min orig = {}, rounded = {}".format(self.RA_min_orig, self.RA_min))
+        self.DEC_min = startpix_decs[np.argmin(np.abs(startpix_decs - self.DEC_min_orig))]
+        self.DEC_max = startpix_decs[np.argmin(np.abs(startpix_decs - self.DEC_max_orig))]
+        print("DEC min orig = {}, rounded = {}".format(self.DEC_min_orig, self.DEC_min))
+        
         
         # translate cube corners to allsky x, y
         allsky_w = cutouts.make_wcs(self.galfa_allsky_hdr)
@@ -88,8 +94,8 @@ class NewCube():
         self.new_cube_flat_wcs.wcs.ctype = ["RA      ", "DEC     "]
         
         print("old ra max = {}, ra min = {}, dec max = {}, dec min = {}".format(self.RA_max, self.RA_min, self.DEC_max, self.DEC_min))
-        self.zRA_max, self.DEC_min = cutouts.xy_to_radec(0, 0, self.new_cube_flat_wcs)
-        self.zRA_min, self.DEC_max = cutouts.xy_to_radec(self.newcube_xlen, self.newcube_ylen, self.new_cube_flat_wcs)
+        self.zRA_max, self.zDEC_min = cutouts.xy_to_radec(0, 0, self.new_cube_flat_wcs)
+        self.zRA_min, self.zDEC_max = cutouts.xy_to_radec(self.newcube_xlen, self.newcube_ylen, self.new_cube_flat_wcs)
         print("new ra max = {}, ra min = {}, dec max = {}, dec min = {}".format(self.RA_max, self.RA_min, self.DEC_max, self.DEC_min))
         
         testx, testy = cutouts.radec_to_xy(52.0, 2.35, self.new_cube_flat_wcs)
