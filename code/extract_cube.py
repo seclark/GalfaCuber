@@ -69,6 +69,8 @@ class NewCube():
         print("DEC min orig = {}, rounded = {}".format(self.DEC_min_orig, self.DEC_min))
         
         
+        print("DEC max - min = {} in pixels = {}".format(self.DEC_max - self.DEC_min, self.allsky_cdelt2*(self.DEC_max - self.DEC_min)))
+        
         # translate cube corners to allsky x, y
         allsky_w = cutouts.make_wcs(self.galfa_allsky_hdr)
         allsky_x1, allsky_y1 = cutouts.radec_to_xy(self.RA_max, self.DEC_min, allsky_w) # LLH corner
