@@ -53,6 +53,8 @@ class NewCube():
         self.allsky_cdelt2 = self.galfa_allsky_hdr['CDELT2']
         self.allsky_naxis1 = self.galfa_allsky_hdr['NAXIS1']
         self.allsky_naxis2 = self.galfa_allsky_hdr['NAXIS2']
+        self.allsky_crpix1 = self.galfa_allsky_hdr['CRPIX1']
+        self.allsky_crpix2 = self.galfa_allsky_hdr['CRPIX2']
         
         startpix_ras =  self.allsky_crval1 +  self.allsky_cdelt1 * (np.arange(self.allsky_naxis1) + 1 -  self.allsky_crpix1)
         print("first startpixra", startpic_ras[0])
