@@ -121,7 +121,7 @@ class NewCube():
         # define new 2D wcs object
         self.new_cube_flat_wcs = wcs.WCS(naxis=2)
         self.new_cube_flat_wcs.wcs.crpix = [self.allsky_crpix1 - self.xmin_in_bigcube_int, self.allsky_crpix2 - self.ymin_in_bigcube_int]
-        self.new_cube_flat_wcs.wcs.cdelt = np.array([-1./60, 1./60]) # assume format is cdelt1, cdelt2 (ra, dec)
+        self.new_cube_flat_wcs.wcs.cdelt = np.array([-1./60, 1./60]) # NOTE: cdelt1, cdelt2 (ra, dec) are not specified to enough precision in original FITS header.
         self.new_cube_flat_wcs.wcs.crval = [self.allsky_crval1, self.allsky_crval2]
         self.new_cube_flat_wcs.wcs.ctype = ["RA      ", "DEC     "]
         
@@ -184,6 +184,7 @@ class NewCube():
             rht_xyt_smallcube = ppv_cube.get_RHT_XYT_cube(ashdulist=False)
             
             xyt_cube_wcs = cutouts.make_wcs(ppv_cube.xyt_fn)
+            xyt_cube_wcs.wcs.cdelt = np.array([-1./60, 1./60])
             print(ra, dec)
             
             testx, testy = cutouts.radec_to_xy(52.0, 2.35, xyt_cube_wcs)
