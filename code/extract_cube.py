@@ -61,6 +61,7 @@ class NewCube():
         print("first crpixra", crpix_ras[0])
         print("first crpixdec", crpix_decs[0])
         crpix_xs = np.arange(self.allsky_naxis1) + 1 -  self.allsky_crpix1
+        crpix_ys = np.arange(self.allsky_naxis2) + 1 -  self.allsky_crpix2
         print("first crpix x", crpix_xs[0])
         
         # redefine RA, DEC min and max s.t. they are integer pixels.
@@ -70,14 +71,18 @@ class NewCube():
         self.RA_max = crpix_ras[self.RA_max_indx]
         print("RA min orig = {}, rounded = {}".format(self.RA_min_orig, self.RA_min))
         
-        self.DEC_min = crpix_decs[np.argmin(np.abs(crpix_decs - self.DEC_min_orig))]
-        self.DEC_max = crpix_decs[np.argmin(np.abs(crpix_decs - self.DEC_max_orig))]
+        self.DEC_min_indx = np.argmin(np.abs(crpix_decs - self.DEC_min_orig))
+        self.DEC_max_indx = np.argmin(np.abs(crpix_decs - self.DEC_max_orig))
+        self.DEC_min = crpix_decs[self.DEC_min_indx]
+        self.DEC_max = crpix_decs[self.DEC_max_indx]
         print("DEC min orig = {}, rounded = {}".format(self.DEC_min_orig, self.DEC_min))
         
         #old_crpix1 - xstart
         # To define new CRPIX, subtract starting x and y from old CRPIX
         self.xmin_in_bigcube_int = np.int(crpix_xs[self.RA_max_indx] - 0.5)
         self.xmax_in_bigcube_int = np.int(crpix_xs[self.RA_min_indx] + 0.5)
+        self.ymin_in_bigcube_int = np.int(crpix_ys[self.DEC_max_indx] + 0.5)
+        self.ymax_in_bigcube_int = np.int(crpix_ys[self.DEC_min_indx] - 0.5)
         print("new xmin, xmax = {}, {}".format(self.xmin_in_bigcube_int, self.xmax_in_bigcube_int))
         
         print("DEC max - min = {} in pixels = {}".format(self.DEC_max - self.DEC_min, (self.DEC_max - self.DEC_min)/self.allsky_cdelt2))
@@ -115,9 +120,9 @@ class NewCube():
         
         # define new 2D wcs object
         self.new_cube_flat_wcs = wcs.WCS(naxis=2)
-        self.new_cube_flat_wcs.wcs.crpix = [self.newcube_xlen/2.0 + 1.5, self.newcube_ylen/2.0 + 1.5]
+        self.new_cube_flat_wcs.wcs.crpix = [self.allsky_crpix1 - self.xmin_in_bigcube_int, self.allsky_crpix2 - self.ymin_in_bigcube_int]
         self.new_cube_flat_wcs.wcs.cdelt = np.array([self.allsky_cdelt1, self.allsky_cdelt2]) # assume format is cdelt1, cdelt2 (ra, dec)
-        self.new_cube_flat_wcs.wcs.crval = [self.newcube_centerRA, self.newcube_centerDEC]
+        self.new_cube_flat_wcs.wcs.crval = [self.allsky_crval1, self.allsky_crval2]
         self.new_cube_flat_wcs.wcs.ctype = ["RA      ", "DEC     "]
         
         #print(self.new_cube_flat_wcs.wcs)
