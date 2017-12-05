@@ -76,9 +76,9 @@ class NewCube():
         
         #old_crpix1 - xstart
         # To define new CRPIX, subtract starting x and y from old CRPIX
-        self.xmin_in_bigcube = crpix_xs[self.RA_max_indx]
-        self.xmax_in_bigcube = crpix_xs[self.RA_min_indx]
-        print("new xmin, xmax = {}, {}".format(self.xmin_in_bigcube, self.xmax_in_bigcube))
+        self.xmin_in_bigcube_int = np.int(crpix_xs[self.RA_max_indx] - 0.5)
+        self.xmax_in_bigcube_int = np.int(crpix_xs[self.RA_min_indx] + 0.5)
+        print("new xmin, xmax = {}, {}".format(self.xmin_in_bigcube_int, self.xmax_in_bigcube_int))
         
         print("DEC max - min = {} in pixels = {}".format(self.DEC_max - self.DEC_min, (self.DEC_max - self.DEC_min)/self.allsky_cdelt2))
         
@@ -86,6 +86,7 @@ class NewCube():
         self.newcube_xlen = np.int((self.RA_min - self.RA_max)/self.allsky_cdelt1) + 1
         self.newcube_ylen = np.int((self.DEC_max - self.DEC_min)/self.allsky_cdelt2 + 1)
         print("new cube xlen, ylen = {}, {}".format(self.newcube_xlen, self.newcube_ylen))
+        print("should be the same x y = {}, {}".format(self.xmax_in_bigcube_int - self.xmin_in_bigcube_int, "placeholder"))
         
         # translate cube corners to allsky x, y
         #allsky_w = cutouts.make_wcs(self.galfa_allsky_hdr)
