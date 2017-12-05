@@ -81,8 +81,8 @@ class NewCube():
         # To define new CRPIX, subtract starting x and y from old CRPIX
         self.xmin_in_bigcube_int = np.int(crpix_xs[self.RA_max_indx] - 0.5)
         self.xmax_in_bigcube_int = np.int(crpix_xs[self.RA_min_indx] + 0.5)
-        self.ymin_in_bigcube_int = np.int(crpix_ys[self.DEC_max_indx] + 0.5)
-        self.ymax_in_bigcube_int = np.int(crpix_ys[self.DEC_min_indx] - 0.5)
+        self.ymin_in_bigcube_int = np.int(crpix_ys[self.DEC_min_indx] - 0.5)
+        self.ymax_in_bigcube_int = np.int(crpix_ys[self.DEC_max_indx] + 0.5)
         print("new xmin, xmax = {}, {}".format(self.xmin_in_bigcube_int, self.xmax_in_bigcube_int))
         
         print("DEC max - min = {} in pixels = {}".format(self.DEC_max - self.DEC_min, (self.DEC_max - self.DEC_min)/self.allsky_cdelt2))
