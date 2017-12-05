@@ -100,7 +100,8 @@ class NewCube():
         print("new center RA, DEC = {}, {}".format(self.newcube_centerRA, self.newcube_centerDEC))
         
         #ra =self.allsky_crval1 +  self.allsky_cdelt1 * (np.arange(self.allsky_naxis1) + 1 -  self.allsky_crpix1)
-        self.newcube_centerx = crpix_xs[ np.argmin(np.abs(crpix_ras - self.newcube_centerRA)) ]
+        #self.newcube_centerx = crpix_xs[ np.argmin(np.abs(crpix_ras - self.newcube_centerRA)) ]
+        self.newcube_centerx = crpix_xs[ np.where(crpix_ras == self.newcube_centerRA) ]
         print("new cube center x = {}".format(self.newcube_centerx))
         
         # define new 2D wcs object
