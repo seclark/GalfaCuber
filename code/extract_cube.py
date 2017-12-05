@@ -183,10 +183,10 @@ class NewCube():
             ramax, decmax = cutouts.xy_to_radec(xmax, ymax, xyt_cube_wcs)
             new_xmin, new_ymin = cutouts.radec_to_xy(ramin, decmin, self.new_cube_flat_wcs)
             new_xmax, new_ymax = cutouts.radec_to_xy(ramax, decmax, self.new_cube_flat_wcs)
-            new_xmin = np.int(min(np.ceil(new_xmin), self.newcube_xlen))
+            new_xmin = np.int(min(np.ceil(new_xmin), self.newcube_xlen + 1))
             new_xmax = np.int(max(np.floor(new_xmax), 0))
             new_ymin = np.int(max(np.floor(new_ymin), 0))
-            new_ymax = np.int(min(np.ceil(new_ymax), self.newcube_ylen))
+            new_ymax = np.int(min(np.ceil(new_ymax), self.newcube_ylen + 1))
             
             print("new x y coords: ", new_xmin, new_ymin, new_xmax, new_ymax)
             print("insert x y coords: ", xmin, ymin, xmax, ymax)
