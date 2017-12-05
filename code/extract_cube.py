@@ -91,7 +91,7 @@ class NewCube():
         self.newcube_xlen = np.int((self.RA_min - self.RA_max)/self.allsky_cdelt1) + 1
         self.newcube_ylen = np.int((self.DEC_max - self.DEC_min)/self.allsky_cdelt2 + 1)
         print("new cube xlen, ylen = {}, {}".format(self.newcube_xlen, self.newcube_ylen))
-        print("should be the same x y = {}, {}".format(self.xmax_in_bigcube_int - self.xmin_in_bigcube_int, "placeholder"))
+        print("should be the same x y = {}, {}".format(self.xmax_in_bigcube_int - self.xmin_in_bigcube_int, self.ymax_in_bigcube_int - self.ymin_in_bigcube_int))
         
         # translate cube corners to allsky x, y
         #allsky_w = cutouts.make_wcs(self.galfa_allsky_hdr)
@@ -109,14 +109,14 @@ class NewCube():
         #print("new cube xlen, ylen = {}, {}".format(self.newcube_xlen, self.newcube_ylen))
         #self.newcube_centerRA, self.newcube_centerDEC = cutouts.xy_to_radec(self.allsky_xstart + self.newcube_xlen/2.0, self.allsky_ystart + self.newcube_ylen/2.0 + 1, allsky_w)
         
-        self.newcube_centerRA = self.RA_min + (self.RA_max - self.RA_min)/2.0
-        self.newcube_centerDEC = self.DEC_min + (self.DEC_max - self.DEC_min)/2.0
-        print("new center RA, DEC = {}, {}".format(self.newcube_centerRA, self.newcube_centerDEC))
+        #self.newcube_centerRA = self.RA_min + (self.RA_max - self.RA_min)/2.0
+        #self.newcube_centerDEC = self.DEC_min + (self.DEC_max - self.DEC_min)/2.0
+        #print("new center RA, DEC = {}, {}".format(self.newcube_centerRA, self.newcube_centerDEC))
         
         #ra =self.allsky_crval1 +  self.allsky_cdelt1 * (np.arange(self.allsky_naxis1) + 1 -  self.allsky_crpix1)
         #self.newcube_centerx = crpix_xs[ np.argmin(np.abs(crpix_ras - self.newcube_centerRA)) ]
-        self.newcube_centerx = crpix_xs[ np.argmin(np.abs(crpix_ras - self.newcube_centerRA)) ]
-        print("new cube center x = {}".format(self.newcube_centerx))
+        #self.newcube_centerx = crpix_xs[ np.argmin(np.abs(crpix_ras - self.newcube_centerRA)) ]
+        #print("new cube center x = {}".format(self.newcube_centerx))
         
         # define new 2D wcs object
         self.new_cube_flat_wcs = wcs.WCS(naxis=2)
