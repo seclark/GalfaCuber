@@ -196,7 +196,7 @@ class NewCube():
             print("insert y len:", ymax-ymin + 1)
             print(rht_xyt_smallcube.shape)
             print(self.RHT_XYT_cube.shape)
-            self.RHT_XYT_cube[:, new_ymin:new_ymax+1, new_xmax:new_xmin+1] = rht_xyt_smallcube[:, ymin:ymax+1, xmax:xmin+1]
+            self.RHT_XYT_cube[:, new_ymin:new_ymax, new_xmax:new_xmin] = rht_xyt_smallcube[:, ymin:ymax, xmax:xmin]
 
 cc = NewCube(RA_min=50., RA_max=55., DEC_min=2.35-1./60, DEC_max=2.35+1./60)
 cc.make_RHT_XYT_cube()
