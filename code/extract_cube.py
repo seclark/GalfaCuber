@@ -90,7 +90,7 @@ class NewCube():
         print("new cube xlen, ylen = {}, {}".format(self.newcube_xlen, self.newcube_ylen))
         #self.newcube_centerRA, self.newcube_centerDEC = cutouts.xy_to_radec(self.allsky_xstart + self.newcube_xlen/2.0, self.allsky_ystart + self.newcube_ylen/2.0 + 1, allsky_w)
         
-        self.newcube_centerRA = (self.RA_min - self.RA_max)/2.0
+        self.newcube_centerRA = (self.RA_max - self.RA_min)/2.0
         self.newcube_centerDEC = (self.DEC_max - self.DEC_min)/2.0
         print("new center RA, DEC = {}, {}".format(self.newcube_centerRA, self.newcube_centerDEC))
         
