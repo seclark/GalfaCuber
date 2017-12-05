@@ -55,39 +55,42 @@ class NewCube():
         self.allsky_crpix1 = self.galfa_allsky_hdr['CRPIX1']
         self.allsky_crpix2 = self.galfa_allsky_hdr['CRPIX2']
         
-        startpix_ras =  self.allsky_crval1 +  self.allsky_cdelt1 * (np.arange(self.allsky_naxis1) + 1 -  self.allsky_crpix1)
-        startpix_decs =  self.allsky_crval2 +  self.allsky_cdelt2 * (np.arange(self.allsky_naxis2) + 1 -  self.allsky_crpix2)
-        print("first startpixra", startpix_ras[0])
-        print("first startpixdec", startpix_decs[0])
+        # all of the center pixel RA and DEC values in the allsky data
+        crpix_ras =  self.allsky_crval1 +  self.allsky_cdelt1 * (np.arange(self.allsky_naxis1) + 1 -  self.allsky_crpix1)
+        crpix_decs =  self.allsky_crval2 +  self.allsky_cdelt2 * (np.arange(self.allsky_naxis2) + 1 -  self.allsky_crpix2)
+        print("first crpixra", crpix_ras[0])
+        print("first crpixdec", crpix_decs[0])
         
         # redefine RA, DEC min and max s.t. they are integer pixels.
-        self.RA_min = startpix_ras[np.argmin(np.abs(startpix_ras - self.RA_min_orig))]
-        self.RA_max = startpix_ras[np.argmin(np.abs(startpix_ras - self.RA_max_orig))]
+        self.RA_min = crpix_ras[np.argmin(np.abs(startpix_ras - self.RA_min_orig))]
+        self.RA_max = crpix_ras[np.argmin(np.abs(startpix_ras - self.RA_max_orig))]
         print("RA min orig = {}, rounded = {}".format(self.RA_min_orig, self.RA_min))
-        self.DEC_min = startpix_decs[np.argmin(np.abs(startpix_decs - self.DEC_min_orig))]
-        self.DEC_max = startpix_decs[np.argmin(np.abs(startpix_decs - self.DEC_max_orig))]
+        self.DEC_min = crpix_decs[np.argmin(np.abs(startpix_decs - self.DEC_min_orig))]
+        self.DEC_max = crpix_decs[np.argmin(np.abs(startpix_decs - self.DEC_max_orig))]
         print("DEC min orig = {}, rounded = {}".format(self.DEC_min_orig, self.DEC_min))
         
         
         print("DEC max - min = {} in pixels = {}".format(self.DEC_max - self.DEC_min, (self.DEC_max - self.DEC_min)/self.allsky_cdelt2))
         
+        # new cube x, y dimensions in pixels
         self.newcube_xlen = np.int((self.RA_min - self.RA_max)/self.allsky_cdelt1) + 1
         self.newcube_ylen = np.int((self.DEC_max - self.DEC_min)/self.allsky_cdelt2 + 1)
+        print("new cube xlen, ylen = {}, {}".format(self.newcube_xlen, self.newcube_ylen))
         
         # translate cube corners to allsky x, y
-        allsky_w = cutouts.make_wcs(self.galfa_allsky_hdr)
-        allsky_x1, allsky_y1 = cutouts.radec_to_xy(self.RA_max, self.DEC_min, allsky_w) # LLH corner
-        allsky_x2, allsky_y2 = cutouts.radec_to_xy(self.RA_min, self.DEC_max, allsky_w) # URH corner
+        #allsky_w = cutouts.make_wcs(self.galfa_allsky_hdr)
+        #allsky_x1, allsky_y1 = cutouts.radec_to_xy(self.RA_max, self.DEC_min, allsky_w) # LLH corner
+        #allsky_x2, allsky_y2 = cutouts.radec_to_xy(self.RA_min, self.DEC_max, allsky_w) # URH corner
 
         # ROUND to integer x, y. Necessary because allsky header does not quite match up. Valid per Yong's check.
-        self.allsky_xstart = np.int(np.floor(allsky_x1))
-        self.allsky_xstop = np.int(np.ceil(allsky_x2))
-        self.allsky_ystart = np.int(np.floor(allsky_y1))
-        self.allsky_ystop = np.int(np.ceil(allsky_y2))
+        #self.allsky_xstart = np.int(np.floor(allsky_x1))
+        #self.allsky_xstop = np.int(np.ceil(allsky_x2))
+        #self.allsky_ystart = np.int(np.floor(allsky_y1))
+        #self.allsky_ystop = np.int(np.ceil(allsky_y2))
         
         #self.newcube_xlen = (self.allsky_xstop - self.allsky_xstart) +1
         #self.newcube_ylen = (self.allsky_ystop - self.allsky_ystart) + 1
-        print("new cube xlen, ylen = {}, {}".format(self.newcube_xlen, self.newcube_ylen))
+        #print("new cube xlen, ylen = {}, {}".format(self.newcube_xlen, self.newcube_ylen))
         #self.newcube_centerRA, self.newcube_centerDEC = cutouts.xy_to_radec(self.allsky_xstart + self.newcube_xlen/2.0, self.allsky_ystart + self.newcube_ylen/2.0 + 1, allsky_w)
         
         self.newcube_centerRA = self.RA_min + (self.RA_max - self.RA_min)/2.0
@@ -96,7 +99,7 @@ class NewCube():
         
         # define new 2D wcs object
         self.new_cube_flat_wcs = wcs.WCS(naxis=2)
-        self.new_cube_flat_wcs.wcs.crpix = [self.newcube_xlen/2.0 + 1, self.newcube_ylen/2.0 + 1]
+        self.new_cube_flat_wcs.wcs.crpix = [self.newcube_xlen/2.0 + 1.5, self.newcube_ylen/2.0 + 1.5]
         self.new_cube_flat_wcs.wcs.cdelt = np.array([self.allsky_cdelt1, self.allsky_cdelt2]) # assume format is cdelt1, cdelt2 (ra, dec)
         self.new_cube_flat_wcs.wcs.crval = [self.newcube_centerRA, self.newcube_centerDEC]
         self.new_cube_flat_wcs.wcs.ctype = ["RA      ", "DEC     "]
