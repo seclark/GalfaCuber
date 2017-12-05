@@ -92,11 +92,12 @@ class NewCube():
         
         self.newcube_centerRA = (self.RA_min - self.RA_max)/2.0
         self.newcube_centerDEC = (self.DEC_max - self.DEC_min)/2.0
+        print("new center RA, DEC = {}, {}".format(self.newcube_centerRA, self.newcube_centerDEC))
         
         # define new 2D wcs object
         self.new_cube_flat_wcs = wcs.WCS(naxis=2)
         self.new_cube_flat_wcs.wcs.crpix = [self.newcube_xlen/2.0 + 1, self.newcube_ylen/2.0 + 1]
-        self.new_cube_flat_wcs.wcs.cdelt = np.array([-0.0166667, 0.0166667]) # assume format is cdelt1, cdelt2 (ra, dec)
+        self.new_cube_flat_wcs.wcs.cdelt = np.array([self.allsky_cdelt1, self.allsky_cdelt2]) # assume format is cdelt1, cdelt2 (ra, dec)
         self.new_cube_flat_wcs.wcs.crval = [self.newcube_centerRA, self.newcube_centerDEC]
         self.new_cube_flat_wcs.wcs.ctype = ["RA      ", "DEC     "]
         
@@ -108,7 +109,7 @@ class NewCube():
         print("new ra max = {}, ra min = {}, dec max = {}, dec min = {}".format(self.RA_max, self.RA_min, self.DEC_max, self.DEC_min))
         
         testx, testy = cutouts.radec_to_xy(52.0, 2.35, self.new_cube_flat_wcs)
-        print("COORD TEST: 52, 2.35 are at x={}, y={}".format(testx, testy))
+        print("COORD TEST 1: 52, 2.35 are at x={}, y={}".format(testx, testy))
         
         # All the existing data cubes
         all_center_DECs = [2.35, 10.35, 18.35, 26.35, 34.35]
