@@ -64,13 +64,21 @@ class NewCube():
         print("first crpix x", crpix_xs[0])
         
         # redefine RA, DEC min and max s.t. they are integer pixels.
-        self.RA_min = crpix_ras[np.argmin(np.abs(crpix_ras - self.RA_min_orig))]
-        self.RA_max = crpix_ras[np.argmin(np.abs(crpix_ras - self.RA_max_orig))]
+        self.RA_min_indx = np.argmin(np.abs(crpix_ras - self.RA_min_orig))
+        self.RA_max_indx = np.argmin(np.abs(crpix_ras - self.RA_max_orig))
+        self.RA_min = crpix_ras[self.RA_min_indx]
+        self.RA_max = crpix_ras[self.RA_max_indx]
         print("RA min orig = {}, rounded = {}".format(self.RA_min_orig, self.RA_min))
+        
         self.DEC_min = crpix_decs[np.argmin(np.abs(crpix_decs - self.DEC_min_orig))]
         self.DEC_max = crpix_decs[np.argmin(np.abs(crpix_decs - self.DEC_max_orig))]
         print("DEC min orig = {}, rounded = {}".format(self.DEC_min_orig, self.DEC_min))
         
+        #old_crpix1 - xstart
+        # To define new CRPIX, subtract starting x and y from old CRPIX
+        self.xmin_in_bigcube = crpix_xs[self.RA_max_indx]
+        self.xmax_in_bigcube = crpix_xs[self.RA_min_indx]
+        print("new xmin, xmax = {}, {}".format(self.xmin_in_bigcube, self.xmax_in_bigcube))
         
         print("DEC max - min = {} in pixels = {}".format(self.DEC_max - self.DEC_min, (self.DEC_max - self.DEC_min)/self.allsky_cdelt2))
         
@@ -101,7 +109,7 @@ class NewCube():
         
         #ra =self.allsky_crval1 +  self.allsky_cdelt1 * (np.arange(self.allsky_naxis1) + 1 -  self.allsky_crpix1)
         #self.newcube_centerx = crpix_xs[ np.argmin(np.abs(crpix_ras - self.newcube_centerRA)) ]
-        self.newcube_centerx = crpix_xs[ np.where(crpix_ras == self.newcube_centerRA) ]
+        self.newcube_centerx = crpix_xs[ np.argmin(np.abs(crpix_ras - self.newcube_centerRA)) ]
         print("new cube center x = {}".format(self.newcube_centerx))
         
         # define new 2D wcs object
