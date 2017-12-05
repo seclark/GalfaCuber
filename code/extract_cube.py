@@ -71,8 +71,8 @@ class NewCube():
         
         print("DEC max - min = {} in pixels = {}".format(self.DEC_max - self.DEC_min, (self.DEC_max - self.DEC_min)/self.allsky_cdelt2))
         
-        self.newcube_xlen = (self.RA_min - self.RA_max)/self.allsky_cdelt1) + 1
-        self.newcube_ylen = (self.DEC_max - self.DEC_min)/self.allsky_cdelt2) + 1
+        self.newcube_xlen = (self.RA_min - self.RA_max)/self.allsky_cdelt1 + 1
+        self.newcube_ylen = (self.DEC_max - self.DEC_min)/self.allsky_cdelt2 + 1
         
         # translate cube corners to allsky x, y
         allsky_w = cutouts.make_wcs(self.galfa_allsky_hdr)
