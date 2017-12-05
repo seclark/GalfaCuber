@@ -62,11 +62,11 @@ class NewCube():
         print("first crpixdec", crpix_decs[0])
         
         # redefine RA, DEC min and max s.t. they are integer pixels.
-        self.RA_min = crpix_ras[np.argmin(np.abs(startpix_ras - self.RA_min_orig))]
-        self.RA_max = crpix_ras[np.argmin(np.abs(startpix_ras - self.RA_max_orig))]
+        self.RA_min = crpix_ras[np.argmin(np.abs(crpix_ras - self.RA_min_orig))]
+        self.RA_max = crpix_ras[np.argmin(np.abs(crpix_ras - self.RA_max_orig))]
         print("RA min orig = {}, rounded = {}".format(self.RA_min_orig, self.RA_min))
-        self.DEC_min = crpix_decs[np.argmin(np.abs(startpix_decs - self.DEC_min_orig))]
-        self.DEC_max = crpix_decs[np.argmin(np.abs(startpix_decs - self.DEC_max_orig))]
+        self.DEC_min = crpix_decs[np.argmin(np.abs(crpix_decs - self.DEC_min_orig))]
+        self.DEC_max = crpix_decs[np.argmin(np.abs(crpix_decs - self.DEC_max_orig))]
         print("DEC min orig = {}, rounded = {}".format(self.DEC_min_orig, self.DEC_min))
         
         
