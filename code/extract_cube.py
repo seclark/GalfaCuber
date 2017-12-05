@@ -121,16 +121,16 @@ class NewCube():
         # define new 2D wcs object
         self.new_cube_flat_wcs = wcs.WCS(naxis=2)
         self.new_cube_flat_wcs.wcs.crpix = [self.allsky_crpix1 - self.xmin_in_bigcube_int, self.allsky_crpix2 - self.ymin_in_bigcube_int]
-        self.new_cube_flat_wcs.wcs.cdelt = np.array([self.allsky_cdelt1, self.allsky_cdelt2]) # assume format is cdelt1, cdelt2 (ra, dec)
+        self.new_cube_flat_wcs.wcs.cdelt = np.array([-1./60, 1./60]) # assume format is cdelt1, cdelt2 (ra, dec)
         self.new_cube_flat_wcs.wcs.crval = [self.allsky_crval1, self.allsky_crval2]
         self.new_cube_flat_wcs.wcs.ctype = ["RA      ", "DEC     "]
         
         #print(self.new_cube_flat_wcs.wcs)
         
-        print("old ra max = {}, ra min = {}, dec max = {}, dec min = {}".format(self.RA_max, self.RA_min, self.DEC_max, self.DEC_min))
-        self.zRA_max, self.zDEC_min = cutouts.xy_to_radec(0, 0, self.new_cube_flat_wcs)
-        self.zRA_min, self.zDEC_max = cutouts.xy_to_radec(self.newcube_xlen, self.newcube_ylen, self.new_cube_flat_wcs)
-        print("new ra max = {}, ra min = {}, dec max = {}, dec min = {}".format(self.RA_max, self.RA_min, self.DEC_max, self.DEC_min))
+        #print("old ra max = {}, ra min = {}, dec max = {}, dec min = {}".format(self.RA_max, self.RA_min, self.DEC_max, self.DEC_min))
+        #self.zRA_max, self.zDEC_min = cutouts.xy_to_radec(0, 0, self.new_cube_flat_wcs)
+        #self.zRA_min, self.zDEC_max = cutouts.xy_to_radec(self.newcube_xlen, self.newcube_ylen, self.new_cube_flat_wcs)
+        #print("new ra max = {}, ra min = {}, dec max = {}, dec min = {}".format(self.RA_max, self.RA_min, self.DEC_max, self.DEC_min))
         
         testx, testy = cutouts.radec_to_xy(52.0, 2.35, self.new_cube_flat_wcs)
         print("COORD TEST 1: 52, 2.35 are at x={}, y={}".format(testx, testy))
@@ -149,7 +149,6 @@ class NewCube():
         self.my_center_DECs = [dec for i, dec in enumerate(all_center_DECs) if all_max_DECs[i] >= self.DEC_min and all_min_DECs[i] <= self.DEC_max]
 
         # RA+DEC strings for all constituent cubes
-        [str(a)+"."+str(b) for (a, b) in itertools.product([5, 6, 3], [3,4])]
         self.all_RADEC_strs = ["RA+DEC_{:06.2f}+{:05.2f}".format(ra, dec) for (ra, dec) in itertools.product(self.my_center_RAs, self.my_center_DECs)]
         self.all_RADEC_str_pairs = [("{:06.2f}".format(ra), "{:05.2f}".format(dec)) for (ra, dec) in itertools.product(self.my_center_RAs, self.my_center_DECs)]
         
@@ -157,7 +156,7 @@ class NewCube():
         
         self.n_cubes_dec = len(self.my_center_DECs)
         self.n_cubes_ra = len(self.my_center_RAs)
-        print("n cubes des = {}, n cubes ra = {}".format(self.n_cubes_dec, self.n_cubes_ra))
+        print("n cubes dec = {}, n cubes ra = {}".format(self.n_cubes_dec, self.n_cubes_ra))
         #print(self.my_center_DECs)
         #print(self.my_center_RAs)
         
