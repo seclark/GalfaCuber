@@ -198,7 +198,7 @@ class NewCube():
             print(self.RHT_XYT_cube.shape)
             self.RHT_XYT_cube[:, new_ymin:new_ymax, new_xmax:new_xmin] = rht_xyt_smallcube[:, ymin:ymax, xmax:xmin]
 
-cc = NewCube(RA_min=50., RA_max=55., DEC_min=2.35-1./60, DEC_max=2.35+1./60)
+cc = NewCube(RA_min=50., RA_max=155., DEC_min=2.35-1./60, DEC_max=2.35+1./60)
 cc.make_RHT_XYT_cube()
 print(cc.all_RADEC_strs)
 
