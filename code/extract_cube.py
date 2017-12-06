@@ -234,10 +234,6 @@ class NewCube():
             print(self.RHT_XYT_cube.shape)
             self.RHT_XYT_cube[:, new_ymin:new_ymax, new_xmax:new_xmin] = rht_xyt_smallcube[:, ymin:ymax, xmax:xmin]
 
-cc = NewCube(RA_min=50., RA_max=155., DEC_min=2.35-1./60, DEC_max=2.35+1./60)
-cc.make_RHT_XYT_cube()
-print(cc.all_RADEC_strs)
-
 gg=galfa_cuber.Cube(RA="004.00", DEC="02.35")
 gg_cube_wcs = cutouts.make_wcs(gg.ppv_cube_fn)
 ra, dec = cutouts.xy_to_radec(512, 512, gg_cube_wcs)
@@ -247,6 +243,14 @@ gg2=galfa_cuber.Cube(RA="012.00", DEC="10.35")
 gg2_cube_wcs = cutouts.make_wcs(gg2.ppv_cube_fn)
 ra2, dec2 = cutouts.xy_to_radec(0, 0, gg2_cube_wcs)
 print(ra2, dec2)
+
+print("RA DIFF TEST: ", ra2 - ra)
+print("DEC DIFF TEST: ", dec2 - dec)
+
+cc = NewCube(RA_min=50., RA_max=155., DEC_min=2.35-1./60, DEC_max=2.35+1./60)
+cc.make_RHT_XYT_cube()
+print(cc.all_RADEC_strs)
+
 
 xx, yy = cutouts.radec_to_xy(ra, dec, gg2_cube_wcs)
 print(xx, yy)
