@@ -236,7 +236,7 @@ class NewCube():
 
 gg=galfa_cuber.Cube(RA="004.00", DEC="02.35")
 gg_cube_wcs = cutouts.make_wcs(gg.ppv_cube_fn)
-ra, dec = cutouts.xy_to_radec(0, 0, gg_cube_wcs)
+ra, dec = cutouts.xy_to_radec(0, 512, gg_cube_wcs)
 print(ra, dec)
 
 gg2=galfa_cuber.Cube(RA="012.00", DEC="10.35")
@@ -255,7 +255,7 @@ ramid, decmid = cutouts.xy_to_radec(256.5, 0, gg2_cube_wcs, origincoord=0)
 print(ramid, decmid)
 ra1, dec1 = cutouts.xy_to_radec(512, 0, gg2_cube_wcs, origincoord=0)
 print(ra1, dec1)
-print("END - BEGIN = {}".format(ra1-ra0))
+print("END - BEGIN = {}".format(ra0-ra1))
 print("END - MID = {}".format(ra1-ramid))
 print("MID - BEGIN = {}".format(ramid-ra0))
 
