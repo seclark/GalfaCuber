@@ -135,8 +135,10 @@ class NewCube():
         testx, testy = cutouts.radec_to_xy(52.0, 2.35, self.new_cube_flat_wcs)
         print("COORD TEST 1: 52, 2.35 are at x={}, y={}".format(testx, testy))
         
-        testra, testdec = cutouts.xy_to_radec(32.5, 0.5, self.new_cube_flat_wcs)
+        testra0, testdec0 = cutouts.xy_to_radec(0, 0, self.new_cube_flat_wcs)
+        testra, testdec = cutouts.xy_to_radec(32, 0, self.new_cube_flat_wcs)
         print("COORD TEST 2: 32, 0 are at x={}, y={}".format(testra, testdec))
+        print("COORD TEST DIFF: 32 - 0 = {}".format(testra - testra0))
         
         # All the existing data cubes
         all_center_DECs = [2.35, 10.35, 18.35, 26.35, 34.35]
