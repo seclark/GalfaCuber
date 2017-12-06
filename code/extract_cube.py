@@ -77,8 +77,7 @@ class NewCube():
         self.DEC_max = crpix_decs[self.DEC_max_indx]
         print("DEC min orig = {}, rounded = {}".format(self.DEC_min_orig, self.DEC_min))
         
-        #old_crpix1 - xstart
-        # To define new CRPIX, subtract starting x and y from old CRPIX
+        # These will be the x, y start, stop positions in the big data -- inclusive to whole pixels.
         self.xmin_in_bigcube_int = np.int(crpix_xs[self.RA_max_indx] - 0.5)
         self.xmax_in_bigcube_int = np.int(crpix_xs[self.RA_min_indx] + 0.5)
         self.ymin_in_bigcube_int = np.int(crpix_ys[self.DEC_min_indx] - 0.5)
@@ -120,6 +119,7 @@ class NewCube():
         
         # define new 2D wcs object
         self.new_cube_flat_wcs = wcs.WCS(naxis=2)
+        # To define new CRPIX, subtract starting x and y from old CRPIX
         self.new_cube_flat_wcs.wcs.crpix = [self.allsky_crpix1 - self.xmin_in_bigcube_int, self.allsky_crpix2 - self.ymin_in_bigcube_int]
         self.new_cube_flat_wcs.wcs.cdelt = np.array([-1./60, 1./60]) # NOTE: cdelt1, cdelt2 (ra, dec) are not specified to enough precision in original FITS header.
         self.new_cube_flat_wcs.wcs.crval = [self.allsky_crval1, self.allsky_crval2]
@@ -187,7 +187,7 @@ class NewCube():
             xyt_cube_wcs.wcs.cdelt = np.array([-1./60, 1./60])
             print(ra, dec)
             
-            testx, testy = cutouts.radec_to_xy(52.0, 2.35, xyt_cube_wcs)
+            testx, testy = cutouts.radec_to_xy(52.0, 2.35, xyt_cube_wcs, origincoord=0)
             print("COORD TEST: 52, 2.35 are at x={}, y={}".format(testx, testy))
             
             # find start and end pixels in small cube
