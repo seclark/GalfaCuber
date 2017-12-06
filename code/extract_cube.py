@@ -236,12 +236,12 @@ class NewCube():
 
 gg=galfa_cuber.Cube(RA="004.00", DEC="02.35")
 gg_cube_wcs = cutouts.make_wcs(gg.ppv_cube_fn)
-ra, dec = cutouts.xy_to_radec(512, 512, gg_cube_wcs)
+ra, dec = cutouts.xy_to_radec(0, 0, gg_cube_wcs)
 print(ra, dec)
 
 gg2=galfa_cuber.Cube(RA="012.00", DEC="10.35")
 gg2_cube_wcs = cutouts.make_wcs(gg2.ppv_cube_fn)
-ra2, dec2 = cutouts.xy_to_radec(0, 0, gg2_cube_wcs)
+ra2, dec2 = cutouts.xy_to_radec(512, 0, gg2_cube_wcs)
 print(ra2, dec2)
 
 print("RA DIFF TEST: ", ra2 - ra)
