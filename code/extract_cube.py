@@ -187,6 +187,7 @@ class NewCube():
             rht_xyt_smallcube = ppv_cube.get_RHT_XYT_cube(ashdulist=False)
             
             xyt_cube_wcs = cutouts.make_wcs(ppv_cube.xyt_fn)
+            print(xyt_cube_wcs.wcs.cdelt)
             xyt_cube_wcs.wcs.cdelt = np.array([-1./60, 1./60])
             print(ra, dec)
             
@@ -223,7 +224,7 @@ class NewCube():
             
             print("new x y coords: ", new_xmin, new_ymin, new_xmax, new_ymax)
             print("insert x y coords: ", xmin, ymin, xmax, ymax)
-            print("new x len:", new_xmin-new_xmax)
+            print("new x len:", new_xmax-new_xmin)
             print("insert x len:", xmin-xmax)
             print("new y len:", new_ymax-new_ymin)
             print("insert y len:", ymax-ymin)
