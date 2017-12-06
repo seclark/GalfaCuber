@@ -135,6 +135,9 @@ class NewCube():
         testx, testy = cutouts.radec_to_xy(52.0, 2.35, self.new_cube_flat_wcs)
         print("COORD TEST 1: 52, 2.35 are at x={}, y={}".format(testx, testy))
         
+        testra, testdec = cutouts.xy_to_radec(32, 0, self.new_cube_flat_wcs)
+        print("COORD TEST 2: 32, 0 are at x={}, y={}".format(testra, testdec))
+        
         # All the existing data cubes
         all_center_DECs = [2.35, 10.35, 18.35, 26.35, 34.35]
         all_center_RAs = [ra for ra in np.arange(4, 360, 8)]
@@ -187,7 +190,7 @@ class NewCube():
             xyt_cube_wcs.wcs.cdelt = np.array([-1./60, 1./60])
             print(ra, dec)
             
-            testx, testy = cutouts.radec_to_xy(52.0, 2.35, xyt_cube_wcs, origincoord=0)
+            testx, testy = cutouts.radec_to_xy(52.0, 2.35, xyt_cube_wcs)
             print("COORD TEST: 52, 2.35 are at x={}, y={}".format(testx, testy))
             
             # find start and end pixels in small cube
