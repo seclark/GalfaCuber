@@ -136,7 +136,7 @@ class NewCube():
         print("COORD TEST 1: 52, 2.35 are at x={}, y={}".format(testx, testy))
         
         testra0, testdec0 = cutouts.xy_to_radec(0, 0, self.new_cube_flat_wcs)
-        testra, testdec = cutouts.xy_to_radec(32, 0, self.new_cube_flat_wcs)
+        testra, testdec = cutouts.xy_to_radec(16, 0, self.new_cube_flat_wcs)
         print("COORD TEST 2: 32, 0 are at x={}, y={}".format(testra, testdec))
         print("COORD TEST DIFF: 32 - 0 = {}".format(testra - testra0))
         
