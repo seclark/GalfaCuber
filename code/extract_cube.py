@@ -135,7 +135,7 @@ class NewCube():
         testx, testy = cutouts.radec_to_xy(52.0, 2.35, self.new_cube_flat_wcs)
         print("COORD TEST 1: 52, 2.35 are at x={}, y={}".format(testx, testy))
         
-        testra, testdec = cutouts.xy_to_radec(32, 0, self.new_cube_flat_wcs)
+        testra, testdec = cutouts.xy_to_radec(32.5, 0.5, self.new_cube_flat_wcs)
         print("COORD TEST 2: 32, 0 are at x={}, y={}".format(testra, testdec))
         
         # All the existing data cubes
