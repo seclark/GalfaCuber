@@ -143,7 +143,7 @@ class NewCube():
         # All the existing data cubes
         all_center_DECs = [2.35, 10.35, 18.35, 26.35, 34.35]
         all_center_RAs = [ra for ra in np.arange(4, 360, 8)]
-        cube_halflength = 4.275 # in degrees
+        cube_halflength = 256/60. #4.275 # in degrees
         all_min_DECs = [dec - cube_halflength for dec in all_center_DECs]
         all_max_DECs = [dec + cube_halflength for dec in all_center_DECs]
         all_min_RAs = np.asarray([ra - cube_halflength for ra in all_center_RAs])
