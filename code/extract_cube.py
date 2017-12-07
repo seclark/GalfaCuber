@@ -121,7 +121,7 @@ class NewCube():
         self.new_cube_flat_wcs = wcs.WCS(naxis=2)
         # To define new CRPIX, subtract starting x and y from old CRPIX
         print("OLD crpix1 = {}, new = {}. OLD crpix2 = {}, new = {}".format(self.allsky_crpix1, self.allsky_crpix1 - self.xmin_in_bigcube_int, self.allsky_crpix2, self.allsky_crpix2 - self.ymin_in_bigcube_int))
-        #self.new_cube_flat_wcs = wcs.WCS(naxis=2)
+        #self.new_cube_flat_wcs.wcs.naxis
         self.new_cube_flat_wcs.wcs.crpix = [self.allsky_crpix1 - self.xmin_in_bigcube_int, self.allsky_crpix2 - self.ymin_in_bigcube_int]
         self.new_cube_flat_wcs.wcs.cdelt = np.array([-1./60, 1./60]) # NOTE: cdelt1, cdelt2 (ra, dec) are not specified to enough precision in original FITS header.
         self.new_cube_flat_wcs.wcs.crval = [self.allsky_crval1, self.allsky_crval2]
@@ -221,7 +221,7 @@ class NewCube():
             ramax, decmax = cutouts.xy_to_radec(xmax, ymax, xyt_cube_wcs)
             print("In insert cube, ra goes from {} to {}, dec from {} to {}".format(ramin, ramax, decmin, decmax))
             print(self.new_cube_flat_wcs.wcs.crpix)
-            print("new cube naxis 1, 2 = ", self.new_cube_flat_wcs.wcs.naxis1, self.new_cube_flat_wcs.wcs.naxis2)
+            print("new cube naxis 1, 2 = ", self.new_cube_flat_wcs.wcs.naxis)
             new_xmin, new_ymin = cutouts.radec_to_xy(ramax, decmin, self.new_cube_flat_wcs)
             new_xmax, new_ymax = cutouts.radec_to_xy(ramin, decmax, self.new_cube_flat_wcs)
             print("In new cube, x goes from {} to {}, y from {} to {}".format(new_xmin, new_xmax, new_ymin, new_ymax))
