@@ -217,8 +217,10 @@ class NewCube():
             # find start and end pixels in new cube
             ramin, decmin = cutouts.xy_to_radec(xmin, ymin, xyt_cube_wcs)
             ramax, decmax = cutouts.xy_to_radec(xmax, ymax, xyt_cube_wcs)
+            print("In insert cube, ra goes from {} to {}, dec from {} to {}".format(ramax, ramin, decmin, decmax))
             new_xmin, new_ymin = cutouts.radec_to_xy(ramin, decmin, self.new_cube_flat_wcs)
             new_xmax, new_ymax = cutouts.radec_to_xy(ramax, decmax, self.new_cube_flat_wcs)
+            print("In new cube, x goes from {} to {}, y from {} to {}".format(new_xmin, new_xmax, new_ymin, new_ymax))
             new_xmin = np.int(min(np.ceil(new_xmin), self.newcube_xlen))
             new_xmax = np.int(max(np.floor(new_xmax), 0))
             new_ymin = np.int(max(np.floor(new_ymin), 0))
