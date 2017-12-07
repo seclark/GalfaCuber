@@ -145,6 +145,9 @@ class NewCube():
         #self.zRA_min, self.zDEC_max = cutouts.xy_to_radec(self.newcube_xlen, self.newcube_ylen, self.new_cube_flat_wcs)
         #print("new ra max = {}, ra min = {}, dec max = {}, dec min = {}".format(self.RA_max, self.RA_min, self.DEC_max, self.DEC_min))
         
+        big_allsky_wcs = cutouts.make_wcs(self.galfa_allsky_hdr)
+        testx, testy = cutouts.radec_to_xy(52.0, 2.35, big_allsky_wcs)
+        print("COORD TEST 0: 52, 2.35 are at x={}, y={}".format(testx, testy))
         testx, testy = cutouts.radec_to_xy(52.0, 2.35, self.new_cube_flat_wcs)
         print("COORD TEST 1: 52, 2.35 are at x={}, y={}".format(testx, testy))
         
