@@ -120,6 +120,7 @@ class NewCube():
         # define new 2D wcs object
         self.new_cube_flat_wcs = wcs.WCS(naxis=2)
         # To define new CRPIX, subtract starting x and y from old CRPIX
+        print("OLD crpix1 = {}, new = {}. OLD crpix2 = {}, new = {}".format(self.allsky_crpix1, self.allsky_crpix1 - self.xmin_in_bigcube_int, self.allsky_crpix2, self.allsky_crpix2 - self.ymin_in_bigcube_int))
         self.new_cube_flat_wcs.wcs.crpix = [self.allsky_crpix1 - self.xmin_in_bigcube_int, self.allsky_crpix2 - self.ymin_in_bigcube_int]
         self.new_cube_flat_wcs.wcs.cdelt = np.array([-1./60, 1./60]) # NOTE: cdelt1, cdelt2 (ra, dec) are not specified to enough precision in original FITS header.
         self.new_cube_flat_wcs.wcs.crval = [self.allsky_crval1, self.allsky_crval2]
