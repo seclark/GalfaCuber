@@ -128,13 +128,16 @@ class NewCube():
         
         
         # instead of trying to build wcs programatically let's build a header so it knows naxis1, 2
-        self.new_cube_flat_hdr = copy.copy(self.galfa_allsky_hdr)
-        self.new_cube_flat_hdr["CDELT1"] = -1./60
-        self.new_cube_flat_hdr["CDELT2"] = 1./60
-        self.new_cube_flat_hdr["CRPIX1"] = self.allsky_crpix1 - self.xmin_in_bigcube_int
-        self.new_cube_flat_hdr["CRPIX2"] = self.allsky_crpix2 - self.ymin_in_bigcube_int
-        self.new_cube_flat_hdr["NAXIS1"] = self.newcube_xlen
-        self.new_cube_flat_hdr["NAXIS2"] = self.newcube_ylen
+        #self.new_cube_flat_hdr = copy.copy(self.galfa_allsky_hdr)
+        #self.new_cube_flat_hdr["CDELT1"] = -1./60
+        #self.new_cube_flat_hdr["CDELT2"] = 1./60
+        #self.new_cube_flat_hdr["CRPIX1"] = self.allsky_crpix1 - self.xmin_in_bigcube_int
+        #self.new_cube_flat_hdr["CRPIX2"] = self.allsky_crpix2 - self.ymin_in_bigcube_int
+        #self.new_cube_flat_hdr["NAXIS1"] = self.newcube_xlen
+        #self.new_cube_flat_hdr["NAXIS2"] = self.newcube_ylen
+        
+        # instead of building a header let's use cutouts.xycut
+        self.new_cube_flat_hdr, blank_data = xycutout_data(np.zeros((self.allsky_naxis2, self.allsky_naxis1), np.float_), self.galfa_allsky_hdr, xstart = self.xmin_in_bigcube_int, xstop = self.xmax_in_bigcube_int, ystart = self.ymin_in_bigcube_int, ystop = self.ymax_in_bigcube_int)
         
         self.new_cube_flat_wcs = cutouts.make_wcs(self.new_cube_flat_hdr)
         
