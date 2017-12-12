@@ -137,7 +137,7 @@ class NewCube():
         #self.new_cube_flat_hdr["NAXIS2"] = self.newcube_ylen
         
         # instead of building a header let's use cutouts.xycut
-        self.new_cube_flat_hdr, blank_data = xycutout_data(np.zeros((self.allsky_naxis2, self.allsky_naxis1), np.float_), self.galfa_allsky_hdr, xstart = self.xmin_in_bigcube_int, xstop = self.xmax_in_bigcube_int, ystart = self.ymin_in_bigcube_int, ystop = self.ymax_in_bigcube_int)
+        self.new_cube_flat_hdr, blank_data = cutouts.xycutout_data(np.zeros((self.allsky_naxis2, self.allsky_naxis1), np.float_), self.galfa_allsky_hdr, xstart = self.xmin_in_bigcube_int, xstop = self.xmax_in_bigcube_int, ystart = self.ymin_in_bigcube_int, ystop = self.ymax_in_bigcube_int)
         
         self.new_cube_flat_wcs = cutouts.make_wcs(self.new_cube_flat_hdr)
         
