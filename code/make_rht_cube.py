@@ -29,7 +29,9 @@ if __name__ == "__main__":
 
     for ra in all_RAs:
         for dec in all_DECs:
-            galfa_cuber.make_single_cube_rtheta(RA=ra, DEC=dec, rht_velstart="1004", rht_velstop="1008", verbose=True)
+            galfa_cuber.make_single_cube_rtheta(RA=ra, DEC=dec, rht_velstart="0999", rht_velstop="1003", verbose=True)
+            galfa_cuber.make_single_cube_rtheta(RA=ra, DEC=dec, rht_velstart="0994", rht_velstop="0998", verbose=True)
+            galfa_cuber.make_single_cube_rtheta(RA=ra, DEC=dec, rht_velstart="0989", rht_velstop="0993", verbose=True)
             #galfa_cuber.make_single_cube_IQU(RA=ra, DEC=dec, verbose=True)
 
     #RA = "156.00"
