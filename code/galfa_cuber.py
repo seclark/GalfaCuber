@@ -66,7 +66,7 @@ class Cube():
             self.cutout_xstart1 = 0
             self.cutout_xstop1 = self.cutout_xstop
             self.cutout_xstart2 = self.cutout_xstart
-            self.cutout_xstop2 = self.naxis1
+            self.cutout_xstop2 = self.galfa_allsky_hdr["NAXIS1"]
             
     
     def make_RHT_XYT_cube(self, rht_velstr="S0974_0978", verbose=False):
@@ -81,7 +81,7 @@ class Cube():
         self.nthets = 165
         
         # Empty cube dimensions
-        self.rht_data_cube = np.zeros((self.nthets, self.naxis2, self.naxis1), np.float_)
+        self.rht_data_cube = np.zeros((self.nthets, self.galfa_allsky_hdr["NAXIS2"], self.galfa_allsky_hdr["NAXIS1"]), np.float_)
         
         # Grab new data
         for thet_i in xrange(self.nthets):
