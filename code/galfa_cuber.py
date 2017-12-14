@@ -62,7 +62,6 @@ class Cube():
         self.cutout_ystop = np.int(np.round(cutout_y2))
         
         if self.edgecase:
-            print(self.cutout_xstart, self.cutout_xstop, self.cutout_ystart, self.cutout_ystop)
             self.cutout_xstart1 = 0
             self.cutout_xstop1 = self.cutout_xstop
             self.cutout_xstart2 = self.cutout_xstart
