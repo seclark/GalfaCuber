@@ -61,7 +61,7 @@ class Cube():
         self.cutout_ystart = np.int(np.round(cutout_y1))
         self.cutout_ystop = np.int(np.round(cutout_y2))
         
-        if edgecase:
+        if self.edgecase:
             print(self.cutout_xstart, self.cutout_xstop, self.cutout_ystart, self.cutout_ystop)
     
     def make_RHT_XYT_cube(self, rht_velstr="S0974_0978", verbose=False):
