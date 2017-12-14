@@ -170,18 +170,18 @@ class Cube():
             if self.edgecase:
                 xycut_hdr1, xycut_data1 = cutouts.xycutout_data(allsky_I_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart1, xstop=self.cutout_xstop1, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
                 xycut_hdr2, xycut_data2 = cutouts.xycutout_data(allsky_I_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart2, xstop=self.cutout_xstop2, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
-                self.rht_I_cube[thet_i, :, 0:self.cutout_xstop1] = xycut_data1
-                self.rht_I_cube[thet_i, :, self.cutout_xstop1:] = xycut_data2
+                self.rht_I_cube[vel_i, :, 0:self.cutout_xstop1] = xycut_data1
+                self.rht_I_cube[vel_i, :, self.cutout_xstop1:] = xycut_data2
                 
                 xycut_hdr1, xycut_data1 = cutouts.xycutout_data(allsky_Q_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart1, xstop=self.cutout_xstop1, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
                 xycut_hdr2, xycut_data2 = cutouts.xycutout_data(allsky_Q_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart2, xstop=self.cutout_xstop2, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
-                self.rht_Q_cube[thet_i, :, 0:self.cutout_xstop1] = xycut_data1
-                self.rht_Q_cube[thet_i, :, self.cutout_xstop1:] = xycut_data2
+                self.rht_Q_cube[vel_i, :, 0:self.cutout_xstop1] = xycut_data1
+                self.rht_Q_cube[vel_i, :, self.cutout_xstop1:] = xycut_data2
                 
                 xycut_hdr1, xycut_data1 = cutouts.xycutout_data(allsky_U_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart1, xstop=self.cutout_xstop1, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
                 xycut_hdr2, xycut_data2 = cutouts.xycutout_data(allsky_U_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart2, xstop=self.cutout_xstop2, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
-                self.rht_U_cube[thet_i, :, 0:self.cutout_xstop1] = xycut_data1
-                self.rht_U_cube[thet_i, :, self.cutout_xstop1:] = xycut_data2
+                self.rht_U_cube[vel_i, :, 0:self.cutout_xstop1] = xycut_data1
+                self.rht_U_cube[vel_i, :, self.cutout_xstop1:] = xycut_data2
                 
             else:
                 xycut_hdr, xycut_I = cutouts.xycutout_data(allsky_I_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart, xstop=self.cutout_xstop, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
