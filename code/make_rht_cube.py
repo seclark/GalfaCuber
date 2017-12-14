@@ -25,11 +25,11 @@ if __name__ == "__main__":
     all_DECs = ["02.35", "10.35", "18.35", "26.35", "34.35"]
     #all_RAs = ["{0:0=3d}.00".format(ra) for ra in np.arange(12, 350, 8)]
     #all_RAs = ["{0:0=3d}.00".format(ra) for ra in np.arange(180, 360, 8)]
-    all_RAs = ["{0:0=3d}.00".format(ra) for ra in [356]]
+    all_RAs = ["{0:0=3d}.00".format(ra) for ra in [4, 356]]
 
     for ra in all_RAs:
         for dec in all_DECs:
-            galfa_cuber.make_single_cube_rtheta(RA=ra, DEC=dec, rht_velstart="1074", rht_velstop="1078", verbose=True)
+            galfa_cuber.make_single_cube_rtheta(RA=ra, DEC=dec, rht_velstart="1069", rht_velstop="1073", verbose=True)
             #make_single_cube_IQU(RA=ra, DEC=dec, verbose=True)
 
     #RA = "156.00"
