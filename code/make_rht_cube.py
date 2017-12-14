@@ -25,7 +25,7 @@ if __name__ == "__main__":
     all_DECs = ["02.35", "10.35", "18.35", "26.35", "34.35"]
     #all_RAs = ["{0:0=3d}.00".format(ra) for ra in np.arange(12, 350, 8)]
     #all_RAs = ["{0:0=3d}.00".format(ra) for ra in np.arange(180, 360, 8)]
-    all_RAs = ["{0:0=3d}.00".format(ra) for ra in [4]]
+    all_RAs = ["{0:0=3d}.00".format(ra) for ra in [356]]
 
     for ra in all_RAs:
         for dec in all_DECs:
