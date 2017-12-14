@@ -32,6 +32,9 @@ class Cube():
         self.naxis1 = self.ppv_cube_hdr['NAXIS1']
         self.naxis2 = self.ppv_cube_hdr['NAXIS2']
         
+        if (self.centerRA == "004.00") or (self.centerRA == "356.00"):
+            self.edgecase = True
+        
 
     def get_cube_coordinates_in_allsky(self):
         """
@@ -57,6 +60,9 @@ class Cube():
         self.cutout_xstop = np.int(np.round(cutout_x2))
         self.cutout_ystart = np.int(np.round(cutout_y1))
         self.cutout_ystop = np.int(np.round(cutout_y2))
+        
+        if edgecase:
+            print(self.cutout_xstart, self.cutout_xstop, self.cutout_ystart, self.cutout_ystop)
     
     def make_RHT_XYT_cube(self, rht_velstr="S0974_0978", verbose=False):
         """
