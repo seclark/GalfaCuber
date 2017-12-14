@@ -63,6 +63,11 @@ class Cube():
         
         if self.edgecase:
             print(self.cutout_xstart, self.cutout_xstop, self.cutout_ystart, self.cutout_ystop)
+            self.cutout_xstart1 = 0
+            self.cutout_xstop1 = self.cutout_xstop
+            self.cutout_xstart2 = self.cutout_xstart
+            self.cutout_xstop2 = self.naxis1
+            
     
     def make_RHT_XYT_cube(self, rht_velstr="S0974_0978", verbose=False):
         """
@@ -84,11 +89,18 @@ class Cube():
             allsky_thetaslice_data = fits.getdata(allsky_fn)
             allsky_thetaslice_hdr = fits.getheader(allsky_fn)
     
-            xycut_hdr, xycut_data = cutouts.xycutout_data(allsky_thetaslice_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart, xstop=self.cutout_xstop, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
-            if verbose:
-                print(self.cutout_xstart, self.cutout_xstop, self.cutout_ystart, self.cutout_ystop)
+            if self.edgecase:
+                xycut_hdr1, xycut_data1 = cutouts.xycutout_data(allsky_thetaslice_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart1, xstop=self.cutout_xstop1, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
+                xycut_hdr2, xycut_data2 = cutouts.xycutout_data(allsky_thetaslice_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart2, xstop=self.cutout_xstop2, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
+                self.rht_data_cube[thet_i, :, 0:self.cutout_xstop1] = xycut_data1
+                self.rht_data_cube[thet_i, :, self.cutout_xstop1:] = xycut_data2
+                
+            else:
+                xycut_hdr, xycut_data = cutouts.xycutout_data(allsky_thetaslice_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart, xstop=self.cutout_xstop, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
+                if verbose:
+                    print(self.cutout_xstart, self.cutout_xstop, self.cutout_ystart, self.cutout_ystop)
             
-            self.rht_data_cube[thet_i, :, :] = xycut_data
+                self.rht_data_cube[thet_i, :, :] = xycut_data
 
         # Create new HDU object
         hdu = fits.PrimaryHDU(self.rht_data_cube)
