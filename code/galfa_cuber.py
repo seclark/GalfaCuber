@@ -81,7 +81,7 @@ class Cube():
         self.nthets = 165
         
         # Empty cube dimensions
-        self.rht_data_cube = np.zeros((self.nthets, self.galfa_allsky_hdr["NAXIS2"], self.galfa_allsky_hdr["NAXIS1"]), np.float_)
+        self.rht_data_cube = np.zeros((self.nthets, self.naxis2, self.naxis1), np.float_)
         
         # Grab new data
         for thet_i in xrange(self.nthets):
@@ -92,7 +92,7 @@ class Cube():
             if self.edgecase:
                 xycut_hdr1, xycut_data1 = cutouts.xycutout_data(allsky_thetaslice_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart1, xstop=self.cutout_xstop1, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
                 xycut_hdr2, xycut_data2 = cutouts.xycutout_data(allsky_thetaslice_data, allsky_thetaslice_hdr, xstart=self.cutout_xstart2, xstop=self.cutout_xstop2, ystart=self.cutout_ystart, ystop=self.cutout_ystop)
-                print("TEST", self.naxis1, xycut_data2.shape, xycut_data1.shape)
+                print("TEST", self.galfa_allsky_hdr["NAXIS1"], xycut_data2.shape, xycut_data1.shape)
                 self.rht_data_cube[thet_i, :, 0:self.cutout_xstop1] = xycut_data1
                 self.rht_data_cube[thet_i, :, self.cutout_xstop1:] = xycut_data2
                 
