@@ -1,3 +1,5 @@
+import numpy as np
+
 """
 dictionary lookup table for Wide velocity naming scheme
 and helper functions for Wide vels
@@ -178,14 +180,26 @@ def get_galfa_W_name(vel):
     
     return 'GALFA_HI_W_S'+velstr+'_V'+galfa_name_dict[velstr]+'kms.fits'
     
-def get_galfa_W_truevel(vel):
+def get_galfa_W_truevel(vel, local=False):
     """
     get the true velocity to 8 decimal places
     """
-    fname = "../text/GALFAHI_VLSR_W.txt"
+    if local:
+        fname = "/Users/susanclark/Projects/GalfaCuber/text/GALFAHI_VLSR_W.txt"
+    else:
+        fname = "../text/GALFAHI_VLSR_W.txt"
     with open(fname) as f:
         truevel = f.readlines()
     
     truevel = [x.strip() for x in truevel] 
     
     return truevel[vel]
+
+def get_galfa_mean_vel_from_velstr(velstr):
+    vel0 = np.float(galfa_name_dict[velstr[1:5]])
+    vel1 = np.float(galfa_name_dict[velstr[6:]])
+    
+    mean_vel = (vel0 + vel1)/2.0
+    
+    return mean_vel
+    
